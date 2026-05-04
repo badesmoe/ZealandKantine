@@ -10,6 +10,8 @@ namespace ZealandKantine.Models
     }
     public class Order
     {
+        public int Id { get; set; }
+        public int UserId { get; set; }
         public DateTime OrderDateTime { get; set; }
         public DateTime ReadyAt { get; set; }
         public OrderStatus Status { get; set; }

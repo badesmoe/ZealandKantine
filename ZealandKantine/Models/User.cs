@@ -9,8 +9,8 @@ namespace ZealandKantine.Models
     }
     public class User
     {
-        private static int _nextID = 0;
-        public int EmployeeId { get; set; }
+        public int Id { get; set; }
+        public string EmployeeId { get; set; }
         public UserRole Role { get; set; }
 
         public string Name { get; set; }
@@ -20,10 +20,9 @@ namespace ZealandKantine.Models
         public List<MonthlyStatement> MonthlyStatements { get; set; }
 
         public User() { }
-        public User(string name, string email, UserRole role)
+        public User(string employeeId, string name, string email, UserRole role)
         {
-            _nextID++;
-            EmployeeId = _nextID;
+            EmployeeId = employeeId;
             Name = name;
             Email = email;
             Role = role;
@@ -32,6 +31,8 @@ namespace ZealandKantine.Models
 
     public class MonthlyStatement
     {
+        public int Id { get; set; }
+        public int UserId { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
         public decimal TotalAmount { get; set; }
