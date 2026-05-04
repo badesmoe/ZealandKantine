@@ -11,7 +11,7 @@ namespace ZealandKantine.Models
         public decimal UnitPrice { get; set; }
         public decimal DiscountPercent { get; set; }
         public decimal DiscountAmount { get; set; }
-        public decimal LineTotal { get; set; }
+        public decimal LineTotal => (UnitPrice * Quantity) - DiscountAmount;
 
         public Order Order { get; set; }
         public MenuItem MenuItem { get; set; }

@@ -15,23 +15,20 @@ namespace ZealandKantine.Models
         public DateTime OrderDateTime { get; set; }
         public DateTime ReadyAt { get; set; }
         public OrderStatus Status { get; set; }
-        public decimal GrossTotal { get; set; }
-        public decimal DiscountTotal { get; set; }
-        public decimal NetTotal { get; set; }
+        public decimal GrossTotal => OrderLines?.Sum(ol => ol.UnitPrice * ol.Quantity) ?? 0;
+        public decimal DiscountTotal => OrderLines?.Sum(ol => ol.DiscountAmount) ?? 0;
+        public decimal NetTotal => GrossTotal - DiscountTotal;
 
         public User User { get; set; }
         public List<OrderLine> OrderLines { get; set; }
 
         public Order() { }
 
-        public Order(DateTime orderDateTime, DateTime readyAt, OrderStatus status, decimal grossTotal, decimal discountTotal, decimal netTotal)
+        public Order(DateTime orderDateTime, DateTime readyAt, OrderStatus status)
         {
             OrderDateTime = orderDateTime;
             ReadyAt = readyAt;
             Status = status;
-            GrossTotal = grossTotal;
-            DiscountTotal = discountTotal;
-            NetTotal = netTotal;
         }
     }
 }
