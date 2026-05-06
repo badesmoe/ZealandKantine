@@ -10,5 +10,7 @@ namespace ZealandKantine.Models
         public DateTime EmailSentAt { get; set; }
        
         public List<DailySpecial> DailySpecials { get; set; }
+
+        public WeekMenu() { }
     }
 }

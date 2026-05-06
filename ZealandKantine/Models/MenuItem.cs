@@ -15,5 +15,7 @@ namespace ZealandKantine.Models
         public decimal Price { get; set; }
         public MenuCategory Category { get; set; }
         public bool IsActive { get; set; }
+
+        public MenuItem() { }
     }
 }
