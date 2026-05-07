@@ -1,9 +1,13 @@
+using ZealandKantine.Helpers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+Console.WriteLine(ConnectionString.GetConnectionString());
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
