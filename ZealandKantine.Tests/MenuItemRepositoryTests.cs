@@ -27,8 +27,10 @@ namespace ZealandKantine.Tests
             using (var context = new CafeZea(options))
             {
                 var repository = new MenuItemRepository(context);
+
                 // Act
                 var activeMenuItems = repository.GetAllActive();
+
                 // Assert
                 Assert.AreEqual(2, activeMenuItems.Count);
                 Assert.IsTrue(activeMenuItems.All(item => item.IsActive));
@@ -51,8 +53,10 @@ namespace ZealandKantine.Tests
             using (var context = new CafeZea(options))
             {
                 var repository = new MenuItemRepository(context);
+
                 // Act
                 var todaysSpecial = repository.GetTodaysDailySpecial();
+
                 // Assert
                 Assert.IsNotNull(todaysSpecial);
                 Assert.AreEqual("Today's Special", todaysSpecial.Description);
