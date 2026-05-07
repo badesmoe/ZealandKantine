@@ -11,20 +11,20 @@ namespace ZealandKantine.Models;
 [Table("MenuItem")]
 public partial class MenuItem
 {
-    [Key]
-    public int Id { get; set; }
-
-    [Required]
-    [Column("Name ")]
-    [StringLength(50)]
-    public string Name { get; set; }
-
-    [Column(TypeName = "decimal(10, 2)")]
-    public decimal Price { get; set; }
-
-    [Required]
-    [StringLength(50)]
-    public string MenuCategory { get; set; }
+    public enum MenuCategory
+    {
+        Sandwich,
+        Snack,
+        Drink
+    }
+    public class MenuItem
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public string Description { get; set; }
+        public MenuCategory Category { get; set; }
+        public bool IsActive { get; set; }
 
     public bool IsActive { get; set; }
 }
