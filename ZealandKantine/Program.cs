@@ -1,9 +1,17 @@
 using ZealandKantine.Helpers;
+using ZealandKantine.Models;
+using ZealandKantine.Services;
+using ZealandKantine.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<MenuService>();
+builder.Services.AddScoped<MenuItemRepository>();
+builder.Services.AddDbContext<CafeZea>(o => o.UseSqlServer(ConnectionString.GetConnectionString()));
+
 
 var app = builder.Build();
 

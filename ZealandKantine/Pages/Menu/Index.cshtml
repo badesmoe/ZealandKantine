@@ -5,21 +5,29 @@
 }
 
 <h1>Menu</h1>
-
+<div class="menu-grid">
 @if (Model.TodaysSpecial != null && Model.TodaysSpecial.IsActive)
 {
     <div class="daily-special">
         <h3>Dagens ret</h3>
         <p>@Model.TodaysSpecial.Description</p>
-        <p>@Model.TodaysSpecial.Price.ToString("0.00") kr.</p>
+        <p>@Model.TodaysSpecial.Price?.ToString("0.00") kr.</p>
     </div>
 }
+</div>
 
-@foreach (var item in Model.Items)
+<div class="menu-grid">
+@foreach (var group in Model.Items.GroupBy(m => m.Category))
 {
-    <div class="menu-item">
-        <h3>@item.Name</h3>
-        <p>@item.Description</p>
-        <p>@item.Price.ToString("0.00") kr.</p>
+    <div class="menu-category">
+    <h2>@group.Key</h2>
+    @foreach (var item in group)
+    {
+        <div class="menu-item">
+            <h3>@item.Name</h3>
+            <p>@item.Price.ToString("0.00") kr.</p>
+        </div>        
+    }
     </div>
 }
+</div>

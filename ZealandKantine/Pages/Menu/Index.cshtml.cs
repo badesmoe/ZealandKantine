@@ -17,6 +17,8 @@ namespace ZealandKantine.Pages.Menu
         }
         public void OnGet()
         {
+            Items = _menuService.GetAllActive();
+            TodaysSpecial = _menuService.GetTodaysDailySpecial();
         }
     }
 }
