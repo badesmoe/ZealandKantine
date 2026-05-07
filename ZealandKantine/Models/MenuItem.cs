@@ -5,8 +5,7 @@ namespace ZealandKantine.Models
     {
         Sandwich,
         Snack,
-        Drink,
-        Other
+        Drink
     }
     public class MenuItem
     {
