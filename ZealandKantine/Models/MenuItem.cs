@@ -15,16 +15,13 @@ public partial class MenuItem
     public int Id { get; set; }
 
     [Required]
-    [Column("Name ")]
+    [Column("Name")]
     [StringLength(50)]
     public string Name { get; set; }
 
     [Column(TypeName = "decimal(10, 2)")]
     public decimal Price { get; set; }
 
-    [Required]
-    [StringLength(50)]
-    public string MenuCategory { get; set; }
-
+    public MenuCategory Category { get; set; }
     public bool IsActive { get; set; }
 }

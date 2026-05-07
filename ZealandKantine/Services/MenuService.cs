@@ -12,14 +12,14 @@ namespace ZealandKantine.Services
             _menuItemRepository = menuItemRepository;
         }
 
-        //public List<MenuItem> GetAllMenuItems()
-        //{
-        //    return _menuItemRepository.GetAllMenuItems();
-        //}
+        public List<MenuItem> GetAllActive()
+        {
+            return _menuItemRepository.GetAllActive();
+        }
 
-        //public List<MenuItem> GetTodaysSpecial()
-        //{
-        //    return _menuItemRepository.GetTodaysSpecial();
-        //}
+        public DailySpecial? GetTodaysDailySpecial()
+        {
+            return _menuItemRepository.GetTodaysDailySpecial();
+        }
     }
 }

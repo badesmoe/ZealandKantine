@@ -233,7 +233,6 @@ a {
 .menu-item {
     display: flex;
     flex-direction: column;
-    height: 100%;
     background: var(--cz-surface);
     border-radius: var(--cz-radius);
     overflow: hidden;
@@ -634,4 +633,22 @@ a:focus-visible,
         box-shadow: none;
         border: 1px solid #CCC;
     }
+}
+
+.menu-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.menu-category {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    align-content: start;
+}
+
+.menu-category h2 {
+    grid-column: 1 / -1;
 }
