@@ -1,4 +1,28 @@
 ﻿@page
 @model ZealandKantine.Pages.Menu.DeleteModel
 @{
+    ViewData["Title"] = "Slet Menupunkt";
 }
+
+<h1>Slet Menupunkt</h1>
+<div class="menu-grid">
+@foreach (var group in Model.Items.GroupBy(m => m.Category))
+{
+    <div class="menu-category">
+    <h2>@group.Key</h2>
+    @foreach (var item in group)
+    {
+        <div class="menu-item" style="position: relative;">
+            <h3>@item.Name</h3>
+            <p>@item.Price.ToString("0.00") kr.</p>
+            <form method="post" style="position: absolute; top: 0.5rem; right: 0.5rem;" onsubmit="return confirm('Er du sikker på at du vil slette @item.Name?');">
+                <input type="hidden" name="id" value="@item.Id" />
+                <button type="submit" class="btn btn-danger" style="padding: 0.5rem 0.75rem;">
+                    🗑️
+                </button>
+            </form>
+        </div>        
+    }
+    </div>
+}
+</div>
