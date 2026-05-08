@@ -4,7 +4,7 @@
     {
        void Create(T entity);
        List<T> ReadAll();
-       T Read(int id);
+       T? Read(int id);
        void Update(T entity);
        void Delete(int id);
     }

@@ -9,7 +9,7 @@ namespace ZealandKantine.Pages.Menu
     public class IndexModel : PageModel
     {
         private readonly MenuService _menuService;
-        public List<MenuItem> Items { get; set; }
+        public List<MenuItem> Items { get; set; } = new List<MenuItem>();
         public DailySpecial? TodaysSpecial { get; set; }
         public IndexModel(MenuService menuService)
         {
@@ -21,9 +21,9 @@ namespace ZealandKantine.Pages.Menu
             TodaysSpecial = _menuService.GetTodaysDailySpecial();
         }
 
-        public void OnPostCreate()
+        public IActionResult OnPostCreate()
         {
-            Response.Redirect("/Menu/Create");
+            return RedirectToPage("/Menu/Create");
         }
     }
 }

@@ -5,6 +5,9 @@
 }
 
 <h1>Menu</h1>
+<form method="post">
+    <button type="submit" class="btn-success" asp-page-handler="Create">Opret</button>
+</form>
 <div class="menu-grid">
 @if (Model.TodaysSpecial != null && Model.TodaysSpecial.IsActive)
 {
@@ -26,7 +29,7 @@
         <div class="menu-item">
             <h3>@item.Name</h3>
             <p>@item.Price.ToString("0.00") kr.</p>
-        </div>        
+        </div>
     }
     </div>
 }
