@@ -20,5 +20,10 @@ namespace ZealandKantine.Pages.Menu
             Items = _menuService.GetAllActive();
             TodaysSpecial = _menuService.GetTodaysDailySpecial();
         }
+
+        public void OnPostCreate()
+        {
+            Response.Redirect("/Menu/Create");
+        }
     }
 }
