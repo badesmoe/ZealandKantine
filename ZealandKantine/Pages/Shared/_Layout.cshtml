@@ -32,6 +32,22 @@
                     </ul>
                 </div>
             </div>
+            @{
+                if (!User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Logon/Login">Log Ind</a>
+                    </li>
+                }
+            }
+            @{
+                if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item nav-link text-dark me-3">
+                        <span>User:</span> <span><b>@Context.User.Identity?.Name</b></span>
+                    </li>
+                }
+            }
         </nav>
     </header>
     <div class="container">

@@ -41,6 +41,10 @@ public partial class CafeZea : DbContext
         modelBuilder.Entity<DailySpecial>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__DailySpe__3214EC07CEC4ABAC");
+
+            entity.Property(e => e.Price)
+                .HasDefaultValue(35.00m)
+                .HasAnnotation("Relational:DefaultConstraintName", "DF_DailySpecial_Price");
         });
 
         modelBuilder.Entity<MenuItem>(entity =>

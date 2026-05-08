@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using ZealandKantine.Helpers;
 using ZealandKantine.Models;
-using ZealandKantine.Services;
 using ZealandKantine.Repositories;
-using Microsoft.EntityFrameworkCore;
+using ZealandKantine.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<MenuService>();
 builder.Services.AddScoped<MenuItemRepository>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<UserService>();
 builder.Services.AddDbContext<CafeZea>(o => o.UseSqlServer(ConnectionString.GetConnectionString()));
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Logon/Login";
+    });
 
 var app = builder.Build();
 
