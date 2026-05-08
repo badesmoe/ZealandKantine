@@ -34,7 +34,16 @@
     }
     </div>
 }
-    <a asp-page="/Menu/Create" class="btn btn-primary">
-        Opret nyt menupunkt
-    </a>
+    @{
+        if (User.IsInRole("Admin"))
+        {
+            <a asp-page="/Menu/Create" class="btn btn-primary">
+                Opret nyt menupunkt
+            </a>
+
+            <a asp-page="/Menu/Delete" class="btn btn-danger">
+                Slet menupunkt
+            </a>
+        }
+}
 </div>

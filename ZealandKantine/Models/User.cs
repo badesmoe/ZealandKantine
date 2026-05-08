@@ -23,6 +23,10 @@ public partial class User
     [StringLength(50)]
     public string Role { get; set; }
 
+    [Required]
+    [StringLength(50)]
+    public string Password { get; set; }
+
     [InverseProperty("User")]
     public virtual ICollection<MonthlyStatement> MonthlyStatements { get; set; } = new List<MonthlyStatement>();
 
