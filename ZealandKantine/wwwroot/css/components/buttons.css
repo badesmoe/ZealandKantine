@@ -1,0 +1,12 @@
+﻿.btn-cz {
+    background: var(--cz-green);
+    border-color: var(--cz-green);
+    color: #fff;
+    font-weight: 600;
+    border-radius: .4rem;
+}
+
+    .btn-cz:hover {
+        background: var(--cz-green-dark);
+        border-color: var(--cz-green-dark);
+    }

@@ -1,0 +1,6 @@
+﻿.badge-cz {
+    background: var(--cz-green);
+    color: #fff;
+    border-radius: 999px;
+    padding: .35rem .75rem;
+}

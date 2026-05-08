@@ -1,0 +1,13 @@
+﻿.cz-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: .75rem;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: .2s ease;
+}
+
+    .cz-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }

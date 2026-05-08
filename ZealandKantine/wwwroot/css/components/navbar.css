@@ -1,0 +1,18 @@
+﻿.cz-navbar {
+    background: #3E6B4F;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+    .cz-navbar .navbar-brand {
+        color: #fff !important;
+        font-weight: 700;
+    }
+
+    .cz-navbar .nav-link {
+        color: #fff !important;
+        opacity: .9;
+    }
+
+        .cz-navbar .nav-link:hover {
+            opacity: 1;
+        }

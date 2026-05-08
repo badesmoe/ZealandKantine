@@ -1,0 +1,48 @@
+﻿.hero {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    height: 70vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,.45);
+    }
+
+.hero-content {
+    position: relative;
+    color: #fff;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 20px;
+}
+
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #E8C76F;
+    }
+
+    .hero-content p {
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+/* Feature bokse */
+.feature-box {
+    background: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+}
+
+.section-title {
+    font-weight: 700;
+    color: #3E6B4F;
+}

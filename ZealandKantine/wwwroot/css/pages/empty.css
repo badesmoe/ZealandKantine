@@ -1,0 +1,11 @@
+﻿.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+}
+
+.empty-state__icon {
+    font-size: 3rem;
+    opacity: .5;
+    margin-bottom: 1rem;
+}

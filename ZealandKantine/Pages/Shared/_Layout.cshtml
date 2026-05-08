@@ -1,71 +1,102 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Café Zea</title>
-    <script type="importmap"></script>
+
+    <!-- 1. Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ZealandKantine.styles.css" asp-append-version="true" />
+
+    <!-- 2. Dit globale tema -->
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <!-- 3. Bootstrap-overrides -->
+    <link rel="stylesheet" href="~/css/bootstrap-overrides.css" />
+
+    <!-- 4. Komponenter -->
+    <link rel="stylesheet" href="~/css/components/navbar.css" />
+    <link rel="stylesheet" href="~/css/components/buttons.css" />
+    <link rel="stylesheet" href="~/css/components/cards.css" />
+    <link rel="stylesheet" href="~/css/components/forms.css" />
+    <link rel="stylesheet" href="~/css/components/tables.css" />
+    <link rel="stylesheet" href="~/css/components/badges.css" />
+    <link rel="stylesheet" href="~/css/components/alerts.css" />
+    <link rel="stylesheet" href="~/css/components/hero.css" />
+    <link rel="stylesheet" href="~/css/components/animations.css" />
+    <link rel="stylesheet" href="~/css/components/ui-components.css" />
+
+    @RenderSection("Styles", required: false)
 </head>
+
 <body>
+    <!-- NAVBAR -->
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg cz-navbar">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">ZealandKantine</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+
+                <!-- Brand -->
+                <a class="navbar-brand" asp-page="/Index">Café Zea</a>
+
+                <!-- Mobile toggle -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <!-- Links -->
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav ms-auto">
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Menu/Index">Menu</a>
+                            <a class="nav-link" asp-page="/Menu/Index">Menu</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link" asp-page="/Index">Forside</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link" asp-page="/Privacy">Privatliv</a>
                         </li>
+
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/Logon/Login">Log ind</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item nav-link">
+                                Bruger: <b>@User.Identity.Name</b>
+                            </li>
+                        }
+
                     </ul>
                 </div>
+
             </div>
-            @{
-                if (!User.Identity.IsAuthenticated)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Logon/Login">Log Ind</a>
-                    </li>
-                }
-            }
-            @{
-                if (User.Identity.IsAuthenticated)
-                {
-                    <li class="nav-item nav-link text-dark me-3">
-                        <span>User:</span> <span><b>@Context.User.Identity?.Name</b></span>
-                    </li>
-                }
-            }
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
+    <!-- MAIN CONTENT -->
+    <main class="container py-4">
+        @RenderBody()
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer text-muted py-3">
         <div class="container">
-            &copy; 2026 - ZealandKantine - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2026 - Café Zea
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
 
-    @await RenderSectionAsync("Scripts", required: false)
+    <!-- Dit JS -->
+    <script src="~/js/site.js"></script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

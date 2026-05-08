@@ -1,0 +1,28 @@
+﻿/* Gør Bootstrap mere "Café Zea" uden at ødelægge noget */
+
+:root {
+    --cz-green: #3E6B4F;
+    --cz-green-dark: #2E523C;
+    --cz-yellow: #E8C76F;
+}
+
+/* Links */
+.nav-link {
+    color: var(--cz-green-dark) !important;
+    font-weight: 500;
+}
+
+    .nav-link:hover {
+        color: var(--cz-green) !important;
+    }
+
+/* Buttons */
+.btn-primary {
+    background: var(--cz-green);
+    border-color: var(--cz-green);
+}
+
+    .btn-primary:hover {
+        background: var(--cz-green-dark);
+        border-color: var(--cz-green-dark);
+    }

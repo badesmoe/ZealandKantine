@@ -1,25 +1,60 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Café Zea";
 }
 
-
-<div class="hero-section">
+<!-- HERO SECTION -->
+<section class="hero" style="background-image: url('/images/kantine.jpg');">
     <div class="hero-content">
-        <h1>Café Zea</h1>
+        <h1>Velkommen til Café Zea</h1>
+        <p>Frisk kaffe, grøn stemning og god mad – hver dag.</p>
+        <a asp-page="/Menu/Index" class="btn btn-cz btn-lg mt-3">Se menuen</a>
+    </div>
+</section>
 
-        <p>
-            Velkommen til kantinens bestillingssystem
+<!-- MAIN CONTENT -->
+<div class="container py-5">
+
+    <!-- Velkomst -->
+    <div class="text-center mb-5">
+        <h2 class="section-title">Velkommen til kantinens bestillingssystem</h2>
+        <p class="lead">
+            Bestil din mad hurtigt og nemt online – så står den klar når du er.
         </p>
+    </div>
 
-        <p>
-            Bestil din mad hurtigt og nemt online
-        </p>
+    <!-- Features -->
+    <div class="row text-center">
 
-        <a asp-page="/Menu/Index"
-           class="btn btn-primary">
-            Se Menu
+        <div class="col-md-4 mb-4">
+            <div class="feature-box p-4">
+                <h4>Friske råvarer</h4>
+                <p>Vi bruger kun gode råvarer og laver maden fra bunden hver dag.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="feature-box p-4">
+                <h4>Hurtig bestilling</h4>
+                <p>Bestil på få sekunder og hent inden for 1. time</p>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="feature-box p-4">
+                <h4>Varieret menu</h4>
+                <p>Sandwich, dagens retter, salater, snacks og drikkevarer.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center mt-5">
+        <a asp-page="/Menu/Index" class="btn btn-cz btn-lg">
+            Gå til menuen
         </a>
     </div>
+
 </div>
