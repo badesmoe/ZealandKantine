@@ -19,6 +19,7 @@
 }
 </div>
 
+
 <div class="menu-grid">
 @foreach (var group in Model.Items.GroupBy(m => m.Category))
 {
@@ -33,4 +34,7 @@
     }
     </div>
 }
+    <a asp-page="/Menu/Create" class="btn btn-primary">
+        Opret nyt menupunkt
+    </a>
 </div>
