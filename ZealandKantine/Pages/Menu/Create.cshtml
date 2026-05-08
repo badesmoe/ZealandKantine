@@ -1,4 +1,33 @@
 ﻿@page
 @model ZealandKantine.Pages.Menu.CreateModel
-@{
-}
+@using ZealandKantine.Models
+
+<h1>Opret Menupunkt</h1>
+
+<form method="post">
+
+    <div>
+        <label>Navn</label>
+        <input asp-for="MenuItem.Name" />
+    </div>
+
+    <div>
+        <label>Pris</label>
+        <input asp-for="MenuItem.Price" />
+    </div>
+
+    <div>
+        <label>Kategori</label>
+        <select asp-for="MenuItem.Category"
+                asp-items="Html.GetEnumSelectList<MenuCategory>()">
+        </select>
+    </div>
+
+    <div>
+        <label>Aktiv</label>
+        <input asp-for="MenuItem.IsActive" />
+    </div>
+
+    <button type="submit">Gem</button>
+
+</form>

@@ -11,10 +11,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<MenuService>();
 builder.Services.AddScoped<MenuItemRepository>();
 builder.Services.AddDbContext<CafeZea>(o => o.UseSqlServer(ConnectionString.GetConnectionString()));
-
+builder.Services.AddDbContext<CafeZea>(options => options.UseSqlServer(ConnectionString.GetConnectionString()));
 
 var app = builder.Build();
-
 Console.WriteLine(ConnectionString.GetConnectionString());
 
 // Configure the HTTP request pipeline.
