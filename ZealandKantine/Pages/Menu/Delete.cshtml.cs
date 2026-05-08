@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ZealandKantine.Models;
@@ -5,6 +6,7 @@ using ZealandKantine.Repositories;
 
 namespace ZealandKantine.Pages.Menu;
 
+[Authorize(Roles = "Admin")]
 public class DeleteModel : PageModel
 {
     private readonly MenuItemRepository _repository;
