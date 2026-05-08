@@ -20,9 +20,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Logon/Login";
     });
+builder.Services.AddDbContext<CafeZea>(options => options.UseSqlServer(ConnectionString.GetConnectionString()));
 
 var app = builder.Build();
-
 Console.WriteLine(ConnectionString.GetConnectionString());
 
 // Configure the HTTP request pipeline.

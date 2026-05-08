@@ -12,6 +12,11 @@ namespace ZealandKantine.Services
             _menuItemRepository = menuItemRepository;
         }
 
+        public void Create (MenuItem entiy)
+        {
+            _menuItemRepository.Create(entiy);
+        }
+
         public List<MenuItem> GetAllActive()
         {
             return _menuItemRepository.GetAllActive();
