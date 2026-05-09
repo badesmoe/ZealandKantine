@@ -5,16 +5,22 @@
 }
 
 <h1>Menu</h1>
-<div class="menu-grid">
-@if (Model.TodaysSpecial != null && Model.TodaysSpecial.IsActive)
+@if (Model.TodaysSpecial != null)
 {
     <div class="daily-special">
-        <h3>Dagens ret</h3>
-        <p>@Model.TodaysSpecial.Description</p>
-        <p>@Model.TodaysSpecial.Price?.ToString("0.00") kr.</p>
+
+        <h2>🍽️ Dagens Ret</h2>
+
+        <p>
+            @Model.TodaysSpecial.Description
+        </p>
+
+        <div class="daily-special-price">
+            @Model.TodaysSpecial.Price kr.
+        </div>
+
     </div>
 }
-</div>
 
 
 <div class="menu-grid">
@@ -33,5 +39,10 @@
 }
     <a asp-page="/Menu/Create" class="btn btn-primary">
         Opret nyt menupunkt
+    </a>
+
+    <a asp-page="/DailySpecialPages/Create"
+       class="btn btn-warning">
+        Opret dagens ret
     </a>
 </div>

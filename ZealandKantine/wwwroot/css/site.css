@@ -652,6 +652,7 @@ a:focus-visible,
 .menu-category h2 {
     grid-column: 1 / -1;
 }
+/*Homepage*/
 
 .hero-section {
     height: 90vh;
@@ -662,6 +663,7 @@ a:focus-visible,
     justify-content: center;
     align-items: center;
     position: relative;
+    animation: zoomEffect 20s ease-in-out infinite alternate;
 }
 
     .hero-section::before {
@@ -698,3 +700,77 @@ a:focus-visible,
         .hero-content a:hover {
             text-decoration: underline;
         }
+
+.menu-button {
+    background-color: #d4a373;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+ /* ---------- Dagens Ret ---------- */
+ 
+ .menu-button:hover {
+        background-color: #b5835a;
+    }
+
+@keyframes zoomEffect {
+
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes zoomEffect {
+
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.1);
+    }
+}
+
+.daily-special {
+    background: linear-gradient(135deg, var(--cz-primary) 0%, var(--cz-primary-light) 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: var(--cz-radius-lg);
+    margin-bottom: 2rem;
+    box-shadow: var(--cz-shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+    .daily-special::before {
+        content: "⭐";
+        position: absolute;
+        top: -10px;
+        right: 20px;
+        font-size: 5rem;
+        opacity: 0.15;
+    }
+
+    .daily-special h2 {
+        color: white;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+    }
+
+    .daily-special p {
+        margin: 0.5rem 0;
+        font-size: 1.2rem;
+    }
+
+.daily-special-price {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 1rem;
+}

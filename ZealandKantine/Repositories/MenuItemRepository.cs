@@ -60,7 +60,13 @@ namespace ZealandKantine.Repositories
         public DailySpecial? GetTodaysDailySpecial()
         {
             var today = DateTime.Today;
-            return _dbContext.DailySpecials.FirstOrDefault(ds => ds.Date == today && ds.IsActive);
+            var tomorrow = today.AddDays(1);
+
+            return _dbContext.DailySpecials
+                .FirstOrDefault(ds =>
+                    ds.Date >= today &&
+                    ds.Date < tomorrow &&
+                    ds.IsActive);
         }
     }
 }
