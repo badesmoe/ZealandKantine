@@ -26,6 +26,15 @@ public partial class Order
     [StringLength(50)]
     public string Status { get; set; }
 
+    [Column(TypeName = "decimal(10, 2)")]
+    public decimal NetTotal { get; set; }
+
+    [Column(TypeName = "decimal(10, 2)")]
+    public decimal DiscountTotal { get; set; }
+
+    [Column(TypeName = "decimal(10, 2)")]
+    public decimal GrossTotal { get; set; }
+
     [InverseProperty("Order")]
     public virtual ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
 

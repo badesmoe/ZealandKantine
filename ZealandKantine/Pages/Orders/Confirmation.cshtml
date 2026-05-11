@@ -1,0 +1,39 @@
+﻿@page "/ordre-bekræftelse"
+@model ZealandKantine.Pages.Orders.ConfirmationModel
+
+<div>
+    <h2>Tak for din bestilling, @Model.Order.User.Name!</h2>
+    <p>Din ordre er registreret og klar til afhentning kl. @Model.Order.ReadyAt.ToString("HH:mm")</p>
+
+    <h4>Ordreoversigt</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Vare</th>
+                <th>Antal</th>
+                <th>Pris</th>
+                <th>Rabat</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.Order.OrderLines)
+            {
+                <tr>
+                    <td>@(line.MenuItem?.Name ?? line.DailySpecial?.Description)</td>
+                    <td>@line.Quantity</td>
+                    <td>@line.UnitPrice kr</td>
+                    <td>@line.DiscountAmount kr</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <hr />
+    <p>Bruttopris: @Model.Order.GrossTotal kr</p>
+    <p>Rabat: @Model.Order.DiscountTotal kr</p>
+    <p><strong>Du betaler: @Model.Order.NetTotal kr</strong></p>
+
+    <p><small>Bestilt: @Model.Order.OrderDateTime.ToString("dd/MM/yyyy HH:mm")</small></p>
+
+    <a href="/Menu">Tilbage til menu</a>
+</div>

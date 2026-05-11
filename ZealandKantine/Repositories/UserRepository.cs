@@ -17,5 +17,15 @@ namespace ZealandKantine.Repositories
         {
             return _dbContext.Users.FirstOrDefault(u => u.Name == name);
         }
+
+        public int? GetUserIdByName(string name)
+        {
+            if (name != null)
+            {
+                var user = _dbContext.Users.FirstOrDefault(u => u.Name == name);
+                return user?.Id;
+            }
+            return 0;
+        }
     }
 }

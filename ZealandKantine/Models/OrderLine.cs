@@ -25,9 +25,13 @@ public partial class OrderLine
 
     public int DiscountPercent { get; set; }
 
-    public int MenuItem { get; set; }
+    public int? MenuItemId { get; set; }
+    [ForeignKey("MenuItemId")]
+    public virtual MenuItem MenuItem { get; set; }
 
-    public int DailySpecial { get; set; }
+    public int? DailySpecialId { get; set; }
+    [ForeignKey("DailySpecialId")]
+    public virtual DailySpecial DailySpecial { get; set; }
 
     [Column(TypeName = "decimal(10, 2)")]
     public decimal DiscountAmount { get; set; }

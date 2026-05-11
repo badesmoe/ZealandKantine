@@ -26,5 +26,10 @@ namespace ZealandKantine.Services
 
             return verificationResult == PasswordVerificationResult.Success ? user : null;
         }
+
+        public int ? GetUserIdByName(string name)
+        {
+            return _userRepository.GetUserIdByName(name);
+        }
     }
 }

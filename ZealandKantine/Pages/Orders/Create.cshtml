@@ -1,0 +1,90 @@
+﻿@page "/opret-ordre"
+@model ZealandKantine.Pages.Orders.CreateModel
+
+<h2>Opret bestilling</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <!-- Dagens ret -->
+    <h4>Dagens ret</h4>
+    @if (Model.TodaysDailySpecial != null)
+    {
+        <div class="order-line">
+            <span>@Model.TodaysDailySpecial.Description</span>
+            <span>35 kr</span>
+            <input type="number" name="OrderLines[0].Quantity" min="0" max="1" value="0" class="quantity-input" data-price="35" data-isdiscount="false" />
+            <input type="hidden" name="OrderLines[0].DailySpecialId" value="@Model.TodaysDailySpecial.Id" />
+        </div>
+    }
+
+    <!-- Menupunkter -->
+    <h4>Menu</h4>
+    @for (int i = 1; i <= 5; i++)
+    {
+        <div class="order-line">
+            <select name="OrderLines[@i].MenuItemId" class="menu-select" data-index="@i">
+                <option value="">-- Vælg --</option>
+                @foreach (var category in Model.MenuItems.GroupBy(m => m.Category))
+                {
+                    <optgroup label="@category.Key">
+                        @foreach (var item in category)
+                        {
+                            <option value="@item.Id" data-price="@item.Price" data-isdiscount="@(item.Category != ZealandKantine.Models.MenuCategory.Drikkevarer ? "true" : "false")">
+                                @item.Name - @item.Price kr
+                            </option>
+                        }
+                    </optgroup>
+                }
+            </select>
+            <input type="number" name="OrderLines[@i].Quantity" min="0" value="0" class="quantity-input" />
+        </div>
+    }
+
+    <!-- Totaler -->
+    <hr />
+    <p>Bruttopris: <span id="grossTotal">0</span> kr</p>
+    <p>Rabat: <span id="discountTotal">0</span> kr</p>
+    <p>Nettopris: <span id="netTotal">0</span> kr</p>
+
+    <button type="submit">Bestil</button>
+</form>
+
+<!-- JavaScript lavet af Claude.AI til live beregning -->
+<script>
+    function calculate() {
+        let gross = 0;
+        let discount = 0;
+
+        document.querySelectorAll('.order-line').forEach(line => {
+            const select = line.querySelector('.menu-select');
+            const qtyInput = line.querySelector('.quantity-input');
+            const qty = parseInt(qtyInput.value) || 0;
+
+            let price = 0;
+            let isDiscount = false;
+
+            if (select) {
+                const selected = select.options[select.selectedIndex];
+                price = parseFloat(selected?.dataset.price) || 0;
+                isDiscount = selected?.dataset.isdiscount === 'true';
+            } else {
+                price = parseFloat(qtyInput.dataset.price) || 0;
+                isDiscount = qtyInput.dataset.isdiscount === 'true';
+            }
+
+            const lineTotal = price * qty;
+            gross += lineTotal;
+            if (isDiscount) discount += lineTotal * 0.10;
+        });
+
+        document.getElementById('grossTotal').textContent = gross.toFixed(2);
+        document.getElementById('discountTotal').textContent = discount.toFixed(2);
+        document.getElementById('netTotal').textContent = (gross - discount).toFixed(2);
+    }
+
+    document.querySelectorAll('.quantity-input, .menu-select').forEach(el => {
+        el.addEventListener('change', calculate);
+        el.addEventListener('input', calculate);
+    });
+</script>
