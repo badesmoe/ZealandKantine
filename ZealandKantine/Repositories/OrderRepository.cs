@@ -1,5 +1,6 @@
 ﻿using ZealandKantine.Models;
 using Microsoft.EntityFrameworkCore;
+using ZealandKantine.Interfaces;
 
 namespace ZealandKantine.Repositories
 {
