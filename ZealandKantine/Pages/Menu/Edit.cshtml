@@ -1,7 +1,7 @@
-﻿@* @page
+﻿@page
 @model ZealandKantine.Pages.Menu.DeleteModel
 @{
-    ViewData["Title"] = "Slet Menupunkt";
+    ViewData["Title"] = "Opdater Menukort";
 }
 
 @if (!Model.Items.Any())
@@ -9,7 +9,7 @@
     <div class="empty-state">
         <div class="empty-state__icon"></div>
         <h3>Ingen menupunkter fundet</h3>
-        <p>Der er ingen aktive menupunkter at slette.</p>
+        <p>Der er ingen aktive menupunkter at opdatere.</p>
         <a asp-page="/Menu/Index" class="btn btn-secondary mt-2">Tilbage til menu</a>
     </div>
 }
@@ -35,9 +35,23 @@ else
                             <h3 class="menu-item__name">@item.Name</h3>
                             <p class="menu-item__price">@item.Price.ToString("0.00")</p>
                             <form method="post"
+                                  asp-page-handler="Update"
+                                  style="position: absolute; bottom: 0.75rem; left: 0.75rem;"
+                                  onsubmit="return confirm('Er du sikker på, at du vil opdatere »@item.Name«?');">
+                                <input type="hidden" name="MenuItem.Id" value="@item.Id" />
+                                <input type="hidden" name="MenuItem.Name" value="@item.Name" />
+                                <input type="hidden" name="MenuItem.Price" value="@item.Price" />
+                                <input type="hidden" name="MenuItem.Category" value="@item.Category" />
+                                <input type="hidden" name="MenuItem.IsActive" value="@item.IsActive" />
+                                <button type="submit" class="btn btn-primary btn-sm d-flex align-items-center gap-1">
+                                     Opdater
+                                </button>
+                            </form>
+                            <form method="post"
+                                  asp-page-handler="Delete"
                                   style="position: absolute; bottom: 0.75rem; right: 0.75rem;"
                                   onsubmit="return confirm('Er du sikker på, at du vil slette »@item.Name«? Denne handling kan ikke fortrydes.');">
-                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="hidden" name="MenuItem.Id" value="@item.Id" />
                                 <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center gap-1">
                                     ✕ Slet
                                 </button>
@@ -48,4 +62,4 @@ else
             </div>
         }
     </div>
-} *@
+}
