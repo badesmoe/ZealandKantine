@@ -1,0 +1,32 @@
+﻿@page
+@model ZealandKantine.Pages.WeekMenus.CreateModel
+@{
+    ViewData["Title"] = "Opret Ugemenu";
+}
+
+<h1>Opret Ugemenu</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="WeekMenu.WeekNumber" class="control-label"></label>
+        <input asp-for="WeekMenu.WeekNumber" class="form-control" />
+        <span asp-validation-for="WeekMenu.WeekNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="WeekMenu.Year" class="control-label"></label>
+        <input asp-for="WeekMenu.Year" class="form-control" />
+        <span asp-validation-for="WeekMenu.Year" class="text-danger"></span>
+    </div>
+    <!--Select 5 daily specials-->
+    <div class="form-group">
+        <label for="DailySpecials">Vælg Dagens Retter (vælg præcis 5):</label>
+        <select asp-for="SelectedDailySpecialIds" asp-items="Model.DailySpecialsSelectList"
+                multiple class="form-control" size="10">
+        </select>
+        <span asp-validation-for="SelectedDailySpecialIds" class="text-danger"></span>
+        <small class="text-muted">Hold Ctrl (Windows) eller Cmd (Mac) for at vælge flere.</small>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Opret" class="btn btn-primary" />
+    </div>
+</form>

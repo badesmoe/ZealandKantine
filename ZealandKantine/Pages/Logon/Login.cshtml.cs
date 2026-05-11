@@ -4,7 +4,6 @@ using ZealandKantine.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using ZealandKantine.Interfaces;
 using ZealandKantine.Services;
 
 namespace ZealandKantine.Pages.Logon

@@ -70,5 +70,10 @@ namespace ZealandKantine.Repositories
                     ds.IsActive);
         }
 
+        public IEnumerable<DailySpecial> GetAllDailySpecials()
+        {
+            return _dbContext.DailySpecials.ToList();
+        }
+
     }
 }

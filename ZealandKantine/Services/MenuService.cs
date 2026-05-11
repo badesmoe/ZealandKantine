@@ -12,7 +12,7 @@ namespace ZealandKantine.Services
             _menuItemRepository = menuItemRepository;
         }
 
-        public void Create (MenuItem entiy)
+        public void Create(MenuItem entiy)
         {
             _menuItemRepository.Create(entiy);
         }
@@ -25,6 +25,11 @@ namespace ZealandKantine.Services
         public DailySpecial? GetTodaysDailySpecial()
         {
             return _menuItemRepository.GetTodaysDailySpecial();
+        }
+
+        public IEnumerable<DailySpecial> GetAllDailySpecials()
+        {
+            return _menuItemRepository.GetAllDailySpecials();
         }
     }
 }

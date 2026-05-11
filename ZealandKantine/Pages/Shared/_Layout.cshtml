@@ -30,6 +30,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Orders/Create">Opret Ordre</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/WeekMenus/Create">Opret Ugemenu</a>
+                            </li>
                         }
                     </ul>
                 </div>
@@ -41,9 +44,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-page="/Logon/Login">Log Ind</a>
                     </li>
                 }
-            }
-            @{
-                if (User.Identity.IsAuthenticated)
+                else
                 {
                     <li class="nav-item nav-link text-dark me-3">
                         <span>User:</span> <span><b>@Context.User.Identity?.Name</b></span>
