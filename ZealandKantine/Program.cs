@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using ZealandKantine.Helpers;
-using ZealandKantine.Interfaces;
 using ZealandKantine.Models;
 using ZealandKantine.Repositories;
 using ZealandKantine.Services;

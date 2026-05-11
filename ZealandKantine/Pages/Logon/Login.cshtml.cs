@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using ZealandKantine.Interfaces;
+using ZealandKantine.Services;
 
 namespace ZealandKantine.Pages.Logon
 {
     public class LoginModel : PageModel
     {
-        private readonly IUserService _userService;
+        private readonly UserService _userService;
 
-        public LoginModel(IUserService userService)
+        public LoginModel(UserService userService)
         {
             _userService = userService;
         }
