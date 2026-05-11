@@ -4,6 +4,12 @@
     ViewData["Title"] = "Menu";
 }
 
+@* <style>
+    .menu-item {
+        text-align: center;
+    }
+</style> *@
+
 <h1>Menu</h1>
 @if (Model.TodaysSpecial != null)
 {
@@ -45,6 +51,11 @@
             Opret nyt menupunkt
         </a>
     
+         <a asp-page="/Menu/Delete"
+           class="btn btn-danger">
+            Slet Menupunkt
+        </a>            
+
         <a asp-page="/DailySpecialPages/Create"
            class="btn btn-warning">
             Opret dagens ret
