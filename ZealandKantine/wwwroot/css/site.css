@@ -152,6 +152,12 @@ a {
     border-bottom: 3px solid var(--cz-primary);
 }
 
+.navbar-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
 .navbar-brand {
     color: #FFFFFF !important;
     font-size: 1.4rem;
@@ -161,11 +167,6 @@ a {
     align-items: center;
     gap: 0.5rem;
 }
-
-    .navbar-brand::before {
-        content: '🍽️';
-        font-size: 1.5rem;
-    }
 
 .navbar-light .navbar-nav .nav-link,
 .navbar .nav-link {
@@ -194,6 +195,7 @@ a {
 
 .navbar-toggler-icon {
     filter: invert(1) brightness(2);
+
 }
 
 /* ---------- Cards ---------- */
@@ -652,7 +654,7 @@ a:focus-visible,
 .menu-category h2 {
     grid-column: 1 / -1;
 }
-/*Homepage*/
+/* ------------ Homepage----------------*/
 
 .hero-section {
     height: 90vh;
@@ -663,7 +665,7 @@ a:focus-visible,
     justify-content: center;
     align-items: center;
     position: relative;
-    animation: zoomEffect 20s ease-in-out infinite alternate;
+    animation: zoomEffect 50s ease-in-out infinite alternate;
 }
 
     .hero-section::before {

@@ -68,5 +68,6 @@ namespace ZealandKantine.Repositories
                     ds.Date < tomorrow &&
                     ds.IsActive);
         }
+
     }
 }

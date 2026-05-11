@@ -18,9 +18,22 @@ namespace ZealandKantine.Repositories
 
             _dbContext.SaveChanges();
         }
-        
-    }
+      
+    
+    public void DeactivateOldSpecials(DateTime date)
+        {
+            var oldSpecials = _dbContext.DailySpecials
+                .Where(ds => ds.Date.Date == date.Date && ds.IsActive)
+                .ToList();
 
+            foreach (var special in oldSpecials)
+            {
+                special.IsActive = false;
+            }
+
+            _dbContext.SaveChanges();
+        }
+    }
 
 
 }
