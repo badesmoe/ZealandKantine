@@ -83,7 +83,7 @@ public partial class CafeZea : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__User__3214EC0776D2FD20");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
         });
 
         modelBuilder.Entity<WeekMenu>(entity =>

@@ -16,5 +16,10 @@ namespace ZealandKantine.Services
         {
             return _userRepository.VerifyUser(name, password);
         }
+
+        public int ? GetUserIdByName(string name)
+        {
+            return _userRepository.GetUserIdByName(name);
+        }
     }
 }

@@ -24,5 +24,15 @@ namespace ZealandKantine.Repositories
 
             return verificationResult == PasswordVerificationResult.Success ? user : null;
         }
+
+        public int? GetUserIdByName(string name)
+        {
+            if (name != null)
+            {
+                var user = _dbContext.Users.FirstOrDefault(u => u.Name == name);
+                return user?.Id;
+            }
+            return 0;
+        }
     }
 }
