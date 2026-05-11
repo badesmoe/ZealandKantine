@@ -240,6 +240,8 @@ a {
     overflow: hidden;
     border: 1px solid var(--cz-border);
     transition: all var(--cz-transition);
+    text-align: left;
+    padding: 1rem;
 }
 
     .menu-item:hover {
@@ -642,6 +644,10 @@ a:focus-visible,
     flex-direction: column;
     gap: 2rem;
     margin-bottom: 2rem;
+}
+
+.menu-item {
+    text-align: left ;
 }
 
 .menu-category {
