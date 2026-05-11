@@ -1,9 +1,11 @@
-﻿using ZealandKantine.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using ZealandKantine.Interfaces;
+using ZealandKantine.Models;
 using ZealandKantine.Repositories;
 
 namespace ZealandKantine.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly UserRepository _userRepository;
 
@@ -14,7 +16,15 @@ namespace ZealandKantine.Services
 
         public User? VerifyUser(string name, string password)
         {
-            return _userRepository.VerifyUser(name, password);
+            User? user = _userRepository.Read(name);
+
+            if (user == null)
+                return null;
+
+            var passwordHasher = new PasswordHasher<User>();
+            var verificationResult = passwordHasher.VerifyHashedPassword(user, user.Password, password);
+
+            return verificationResult == PasswordVerificationResult.Success ? user : null;
         }
 
         public int ? GetUserIdByName(string name)

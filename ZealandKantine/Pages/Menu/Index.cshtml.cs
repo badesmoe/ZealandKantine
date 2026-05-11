@@ -10,7 +10,7 @@ namespace ZealandKantine.Pages.Menu
     {
         private readonly MenuService _menuService;
         public List<MenuItem> Items { get; set; }
-        public DailySpecial? TodaysSpecial { get; set; }
+        public Models.DailySpecial? TodaysSpecial { get; set; }
         public IndexModel(MenuService menuService)
         {
             _menuService = menuService;
