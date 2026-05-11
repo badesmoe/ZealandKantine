@@ -1,19 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;
 using ZealandKantine.Models;
-using ZealandKantine.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using ZealandKantine.Interfaces;
 
 namespace ZealandKantine.Pages.Logon
 {
     public class LoginModel : PageModel
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public LoginModel(UserService userService)
+        public LoginModel(IUserService userService)
         {
             _userService = userService;
         }

@@ -1,8 +1,8 @@
 ﻿using ZealandKantine.Models;
 
-namespace ZealandKantine.Repositories
+namespace ZealandKantine.Interfaces
 {
-    public interface IVerifyUser
+    public interface IUserService
     {
         User? VerifyUser(string name, string password);
     }
