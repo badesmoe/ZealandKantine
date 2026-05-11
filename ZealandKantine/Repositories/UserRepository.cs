@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using ZealandKantine.Interfaces;
 using ZealandKantine.Models;
 
 namespace ZealandKantine.Repositories
 {
-    public class UserRepository : IVerifyUser
+    public class UserRepository
     {
         private readonly CafeZea _dbContext;
 
@@ -12,17 +13,9 @@ namespace ZealandKantine.Repositories
             _dbContext = dbContext;
         }
 
-        public User? VerifyUser(string name, string password)
+        public User? Read(string name)
         {
-            User? user = _dbContext.Users.FirstOrDefault(u => u.Name == name);
-
-            if (user == null)
-                return null;
-
-            var passwordHasher = new PasswordHasher<User>();
-            var verificationResult = passwordHasher.VerifyHashedPassword(user, user.Password, password);
-
-            return verificationResult == PasswordVerificationResult.Success ? user : null;
+            return _dbContext.Users.FirstOrDefault(u => u.Name == name);
         }
     }
 }

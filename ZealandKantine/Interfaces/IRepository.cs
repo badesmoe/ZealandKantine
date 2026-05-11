@@ -1,4 +1,4 @@
-﻿namespace ZealandKantine.Repositories
+﻿namespace ZealandKantine.Interfaces
 {
     public interface IRepository<T> where T : class
     {

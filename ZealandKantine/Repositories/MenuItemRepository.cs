@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using ZealandKantine.Interfaces;
 using ZealandKantine.Models;
 
 namespace ZealandKantine.Repositories
