@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ZealandKantine.Models;
+using ZealandKantine.Pages.WeekMenus;
 
 namespace ZealandKantine.Repositories
 {
@@ -21,6 +22,40 @@ namespace ZealandKantine.Repositories
             _dbContext.SaveChanges();
         }
 
+        public void Update(int weekMenuId, List<MenuDayInput> menuDays)
+        {
+            var weekMenu = _dbContext.WeekMenus
+                .Include(w => w.MenuDays)
+                    .ThenInclude(d => d.DailySpecials)
+                .FirstOrDefault(w => w.Id == weekMenuId);
+
+            if (weekMenu == null) return;
+
+            foreach (var dayInput in menuDays)
+            {
+                var menuDay = weekMenu.MenuDays.FirstOrDefault(d => d.Id == dayInput.Id);
+                if (menuDay == null) continue;
+
+                // Fjern retter der ikke længere er valgt ved at sætte MenuDayId til null
+                foreach (var existing in menuDay.DailySpecials.ToList())
+                {
+                    if (dayInput.SelectedDailySpecialIds == null ||
+                        !dayInput.SelectedDailySpecialIds.Contains(existing.Id))
+                    {
+                        existing.MenuDayId = null;
+                    }
+                }
+
+                // Tilføj nyvalgte retter
+                var ids = dayInput.SelectedDailySpecialIds.ToList();
+                var selectedSpecials = _dbContext.DailySpecials
+                    .Where(ds => ids.Contains(ds.Id))
+                    .ToList();
+            }
+
+            _dbContext.SaveChanges();
+        }
+
         public List<WeekMenu> GetCurrentWeek()
         {
             var today = DateOnly.FromDateTime(DateTime.Today);
@@ -33,6 +68,14 @@ namespace ZealandKantine.Repositories
                     .ThenInclude(d => d.DailySpecials)
                 .Where(w => w.MenuDays.Any(md => md.Date >= startOfWeek && md.Date < endOfWeek))
                 .ToList();
+        }
+
+        public WeekMenu? GetWeekMenu(int? weekNumber, int year)
+        {
+            return _dbContext.WeekMenus
+                .Include(w => w.MenuDays)
+                    .ThenInclude(d => d.DailySpecials)
+                .FirstOrDefault(w => w.WeekNumber == weekNumber && w.Year == year);
         }
 
         public List<WeekMenu> GetAll()

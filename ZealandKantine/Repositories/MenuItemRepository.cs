@@ -75,7 +75,6 @@ namespace ZealandKantine.Repositories
                 .Where(md => md.Date == today)
                 .Include(md => md.DailySpecials)
                 .SelectMany(md => md.DailySpecials)
-                .Where(ds => ds.IsActive)
                 .FirstOrDefault();
         }
 

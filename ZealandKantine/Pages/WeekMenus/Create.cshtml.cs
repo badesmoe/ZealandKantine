@@ -94,6 +94,7 @@ namespace ZealandKantine.Pages.WeekMenus
 
     public class MenuDayInput
     {
+        public int Id { get; set; }
         public int DayOfWeek { get; set; }
         public List<int> SelectedDailySpecialIds { get; set; } = new();
     }

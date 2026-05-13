@@ -1,0 +1,66 @@
+﻿@page
+@model ZealandKantine.Pages.WeekMenus.UpdateModel
+@{
+    ViewData["Title"] = "Opdater Ugemenu";
+}
+<h1>Opdater Ugemenu</h1>
+
+<form method="get">
+    <div class="form-group">
+        <label for="weekNumber">Ugenummer</label>
+        <input type="number" id="weekNumber" name="weekNumber"
+               value="@Model.SelectedWeekNumber" class="form-control" style="max-width:150px" />
+    </div>
+    <div class="form-group">
+        <label for="year">År</label>
+        <input type="number" id="year" name="year"
+               value="@Model.SelectedYear" class="form-control" style="max-width:150px" />
+    </div>
+    <button type="submit" class="btn btn-secondary">Søg</button>
+</form>
+
+@if (Model.WeekMenu != null)
+{
+    <form method="post" class="mt-4">
+        <input type="hidden" name="WeekMenuId" value="@Model.WeekMenu.Id" />
+        <h4>Uge @Model.WeekMenu.WeekNumber, @Model.WeekMenu.Year</h4>
+
+        @{
+            var dage = new[] { "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag" };
+        }
+
+        @for (int i = 0; i < Model.MenuDays.Count; i++)
+        {
+            <div class="card mb-3">
+                <div class="card-header">@dage[Model.MenuDays[i].DayOfWeek - 1]</div>
+                <div class="card-body">
+                    <input type="hidden" name="MenuDays_Post[@i].Id" value="@Model.MenuDays[i].Id" />
+                    <input type="hidden" name="MenuDays_Post[@i].DayOfWeek" value="@Model.MenuDays[i].DayOfWeek" />
+
+                    <div class="form-group">
+                        <label>Vælg ret(ter)</label>
+                        <select name="MenuDays_Post[@i].SelectedDailySpecialIds"
+                                multiple class="form-control" size="5">
+                            @foreach (var special in Model.AllDailySpecials)
+                            {
+                                var isSelected = Model.MenuDays[i].SelectedDailySpecialIds.Contains(special.Id);
+                                <option value="@special.Id" selected="@isSelected">@special.Description</option>
+                            }
+                        </select>
+                        <small class="text-muted">Hold Ctrl (Windows) eller Cmd (Mac) for at vælge flere.</small>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="form-group mt-3">
+            <input type="submit" value="Gem ændringer" class="btn btn-primary" />
+        </div>
+    </form>
+}
+else if (Model.SelectedWeekNumber != 0 && Model.SelectedYear != 0)
+{
+    <div class="alert alert-warning mt-3">
+        Ingen ugemenu fundet for uge @Model.SelectedWeekNumber, @Model.SelectedYear.
+    </div>
+}
