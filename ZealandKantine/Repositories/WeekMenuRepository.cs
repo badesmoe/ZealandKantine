@@ -21,6 +21,20 @@ namespace ZealandKantine.Repositories
             _dbContext.SaveChanges();
         }
 
+        public List<WeekMenu> GetCurrentWeek()
+        {
+            var today = DateOnly.FromDateTime(DateTime.Today);
+            int daysFromMonday = ((int)today.DayOfWeek - 1 + 7) % 7;
+            var startOfWeek = today.AddDays(-daysFromMonday);
+            var endOfWeek = startOfWeek.AddDays(5);
+
+            return _dbContext.WeekMenus
+                .Include(w => w.MenuDays)
+                    .ThenInclude(d => d.DailySpecials)
+                .Where(w => w.MenuDays.Any(md => md.Date >= startOfWeek && md.Date < endOfWeek))
+                .ToList();
+        }
+
         public List<WeekMenu> GetAll()
         {
             return _dbContext.WeekMenus

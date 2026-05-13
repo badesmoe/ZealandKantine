@@ -13,11 +13,11 @@ namespace ZealandKantine.Pages.WeekMenus
             _weekMenuService = weekMenuService;
         }
 
-        public List<WeekMenu> WeekMenus { get; set; } = new();
+        public List<WeekMenu> WeekMenu { get; set; } = new();
 
         public void OnGet()
         {
-            WeekMenus = _weekMenuService.GetAll();
+            WeekMenu = _weekMenuService.GetCurrentWeek();
         }
     }
 }

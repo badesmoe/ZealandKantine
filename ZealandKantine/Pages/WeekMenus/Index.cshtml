@@ -3,26 +3,26 @@
 @{
     ViewData["Title"] = "Uge Menukort";
 }
-<h1>Uge Menukort</h1>
-<div class="week-menu-grid">
-    @foreach (var weekMenu in Model.WeekMenus)
-    {
-        <div class="week-menu-item">
-            <h2>Uge @weekMenu.WeekNumber, @weekMenu.Year</h2>
+<h1>Uge  Menukort</h1>
 
-            @foreach (var day in weekMenu.MenuDays.OrderBy(d => d.DayOfWeek))
-            {
-                <h4>@GetDayName(day.DayOfWeek)</h4>
-                <ul>
-                    @foreach (var special in day.DailySpecials)
-                    {
-                        <li>@special.Description — @special.Price kr.</li>
-                    }
-                </ul>
-            }
-        </div>
+@if (Model.WeekMenu.Any())
+{
+    @foreach (var day in Model.WeekMenu.First().MenuDays.OrderBy(d => d.DayOfWeek))
+    {
+        @foreach (var special in day.DailySpecials)
+        {
+            <div class="daily-special">
+                <h2>@GetDayName(day.DayOfWeek)</h2>
+                <p>@special.Description</p>
+                <p class="daily-special-price">@special.Price kr.</p>
+            </div>
+        }
     }
-</div>
+}
+else
+{
+    <p>Ingen ugemenu tilgængelig for denne uge.</p>
+}
 
 @functions {
     string GetDayName(byte dayOfWeek) => dayOfWeek switch

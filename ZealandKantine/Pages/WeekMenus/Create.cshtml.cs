@@ -7,7 +7,7 @@ using ZealandKantine.Services;
 
 namespace ZealandKantine.Pages.WeekMenus
 {
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly WeekMenuService _weekMenuService;
