@@ -4,11 +4,7 @@
     ViewData["Title"] = "Menu";
 }
 
-@* <style>
-    .menu-item {
-        text-align: center;
-    }
-</style> *@
+
 
 <h1>Menu</h1>
 @if (Model.TodaysSpecial != null)
@@ -36,30 +32,14 @@
     <h2>@group.Key</h2>
     @foreach (var item in group)
     {
-        <div class="menu-item">
-            <h3>@item.Name</h3>
-            <p>@item.Price.ToString("0.00") kr.</p>
+                <div class="menu-item" style="position: relative; padding-bottom: 3.5rem;">
+                    <span class="menu-item__category">@item.Category</span>
+                    <h3 class="menu-item__name">@item.Name</h3>
+                    <p class="menu-item__price">@item.Price.ToString("0.00")</p>
         </div>        
     }
     </div>
 }
 
-@{
-    if (User.IsInRole("Admin"))
-    {
-        <a asp-page="/Menu/Create" class="btn btn-primary">
-            Opret nyt menupunkt
-        </a>
-    
-         <a asp-page="/Menu/Edit"
-           class="btn btn-info">
-            Opdater Menukort
-        </a>            
 
-        <a asp-page="/DailySpecialPages/Create"
-           class="btn btn-warning">
-            Opret dagens ret
-        </a>            
-    }
-}
 </div>

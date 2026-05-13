@@ -35,6 +35,21 @@
                 </div>
             </div>
             @{
+                if (User.IsInRole("Admin"))
+                {
+                    <div class="dropdown">
+                        <button class="btn btn-orange dropdown-toggle" type="button" id="adminMenuDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Admin
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="adminMenuDropdown">
+                            <li><a class="dropdown-item" asp-page="/Menu/Create">Opret nyt menupunkt</a></li>
+                            <li><a class="dropdown-item" asp-page="/Menu/Edit">Opdater Menukort</a></li>
+                            <li><a class="dropdown-item" asp-page="/DailySpecialPages/Create">Opret dagens ret</a></li>
+                        </ul>
+                    </div>
+                }
+            }
+            @{
                 if (!User.Identity.IsAuthenticated)
                 {
                     <li class="nav-item">

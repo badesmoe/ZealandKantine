@@ -7,32 +7,35 @@
 
 <h1>Opret Menupunkt</h1>
 
-<form method="post">
+<form method="post" style="max-width: 400px;">
 
-    <div>
-        <label>Navn</label>
-        <input asp-for="MenuItem.Name" required />
-        <span asp-validation-for="MenuItem.Name" class="text-danger"></span>
+    <div class="mb-3">
+        <label class="form-label">Navn</label>
+        <input asp-for="MenuItem.Name"
+               class="form-control form-control-sm" />
     </div>
 
-    <div>
-        <label>Pris</label>
-        <input asp-for="MenuItem.Price" type="number" step="0.01" min="0" max="1000" required inputmode="decimal"  />
-        <span asp-validation-for="MenuItem.Price" class="text-danger"></span>
+    <div class="mb-3">
+        <label class="form-label">Pris</label>
+        <input asp-for="MenuItem.Price"
+               type="number"
+               step="0.01"
+               min="0"
+               class="form-control form-control-sm" />
     </div>
 
-    <div>
-        <label>Kategori</label>
+    <div class="mb-3">
+        <label class="form-label">Kategori</label>
         <select asp-for="MenuItem.Category"
-                asp-items="Html.GetEnumSelectList<MenuCategory>()">
+                asp-items="Html.GetEnumSelectList<MenuCategory>()"
+                class="form-control form-control-sm"
+                style="appearance: none; padding-right: 2rem; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3e%3cpolyline points=%226 9 12 15 18 9%22%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1.5rem;">
         </select>
     </div>
 
-    <div>
-        <label>Aktiv</label>
-        <input asp-for="MenuItem.IsActive" />
-    </div>
-
-    <button type="submit">Gem</button>
+    <button type="submit"
+            class="btn btn-primary">
+        Opret Menupunkt
+    </button>
 
 </form>

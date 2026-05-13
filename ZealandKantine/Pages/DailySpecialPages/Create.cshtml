@@ -5,24 +5,24 @@
 
     <div class="card shadow p-4">
 
-        <h1 class="mb-4">🍽️ Opret Dagens Ret</h1>
+        <h1 class="mb-4">Opret Dagens Ret</h1>
 
-        <form method="post">
+
+        <form method="post" style="max-width: 400px;">
 
             <div class="mb-3">
                 <label class="form-label">Beskrivelse</label>
                 <input asp-for="DailySpecial.Description"
-                       class="form-control" />
+                       class="form-control form-control-sm" />
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Pris</label>
-
                 <input asp-for="DailySpecial.Price"
                        type="number"
                        step="0.01"
                        min="0"
-                       class="form-control" />
+                       class="form-control form-control-sm" />
             </div>
 
             <div class="mb-3">
@@ -39,7 +39,6 @@
             </button>
 
         </form>
-
     </div>
 
 </div>
