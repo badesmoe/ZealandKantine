@@ -322,6 +322,21 @@ a {
         color: #FFFFFF;
     }
 
+.btn-orange {
+    background-color: var(--cz-primary);
+    border-color: var(--cz-primary);
+    color: #FFFFFF;
+}
+
+    .btn-orange:hover,
+    .btn-orange:focus {
+        background-color: var(--cz-primary-dark);
+        border-color: var(--cz-primary-dark);
+        color: #FFFFFF;
+        transform: translateY(-1px);
+        box-shadow: var(--cz-shadow);
+    }
+
 .btn-outline-primary {
     color: var(--cz-primary-dark);
     border-color: var(--cz-primary);
