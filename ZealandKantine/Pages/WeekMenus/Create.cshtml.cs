@@ -18,13 +18,14 @@ namespace ZealandKantine.Pages.WeekMenus
             _weekMenuService = weekMenuService;
             _menuService = menuService;
         }
+
         public SelectList DailySpecialsSelectList { get; set; }
 
         [BindProperty]
         public WeekMenu WeekMenu { get; set; }
 
         [BindProperty]
-        public List<int> SelectedDailySpecialIds { get; set; } = new();
+        public List<MenuDayInput> MenuDays { get; set; } = new();
 
         public void OnGet()
         {
@@ -34,9 +35,16 @@ namespace ZealandKantine.Pages.WeekMenus
 
         public IActionResult OnPost()
         {
-            if (SelectedDailySpecialIds.Count != 5)
+            // Valider at der er valgt mindst én ret pr. dag
+            foreach (var day in MenuDays)
             {
-                ModelState.AddModelError("SelectedDailySpecialIds", "Du skal vælge præcis 5 dagens retter.");
+                if (day.SelectedDailySpecialIds == null || !day.SelectedDailySpecialIds.Any())
+                {
+                    ModelState.AddModelError(
+                        "MenuDays",
+                        $"Du skal vælge mindst én ret for {GetDayName(day.DayOfWeek)}."
+                    );
+                }
             }
 
             if (!ModelState.IsValid)
@@ -45,15 +53,43 @@ namespace ZealandKantine.Pages.WeekMenus
                 return Page();
             }
 
-            var selectedSpecials = _menuService.GetAllDailySpecials()
-                .Where(ds => SelectedDailySpecialIds.Contains(ds.Id))
-                .ToList();
+            // Byg MenuDay-objekter med tilhørende DailySpecials
+            var menuDays = MenuDays.Select(d => new MenuDay
+            {
+                DayOfWeek = (byte)d.DayOfWeek,
+                Date = GetDateForDay(WeekMenu.WeekNumber, WeekMenu.Year, d.DayOfWeek),
+                DailySpecials = _menuService.GetAllDailySpecials()
+                    .Where(ds => d.SelectedDailySpecialIds.Contains(ds.Id))
+                    .ToList()
+            }).ToList();
 
-            WeekMenu.DailySpecials = selectedSpecials;
-            _weekMenuService.Create(WeekMenu);
+            _weekMenuService.Create(WeekMenu, menuDays);
 
-            DailySpecialsSelectList = new SelectList(_menuService.GetAllDailySpecials(), "Id", "Description");
-            return Page();
+            return RedirectToPage("./Index");
         }
+
+        private string GetDayName(int dayOfWeek) => dayOfWeek switch
+        {
+            1 => "mandag",
+            2 => "tirsdag",
+            3 => "onsdag",
+            4 => "torsdag",
+            5 => "fredag",
+            _ => "ukendt dag"
+        };
+
+        private DateOnly GetDateForDay(int weekNumber, int year, int dayOfWeek)
+        {
+            // Find første mandag i den givne uge
+            var jan4 = new DateTime(year, 1, 4);
+            var monday = jan4.AddDays(7 * (weekNumber - 1) - (int)jan4.DayOfWeek + 1);
+            return DateOnly.FromDateTime(monday.AddDays(dayOfWeek - 1));
+        }
+    }
+
+    public class MenuDayInput
+    {
+        public int DayOfWeek { get; set; }
+        public List<int> SelectedDailySpecialIds { get; set; } = new();
     }
 }

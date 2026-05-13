@@ -1,0 +1,37 @@
+﻿@page
+@model ZealandKantine.Pages.WeekMenus.IndexModel
+@{
+    ViewData["Title"] = "Uge Menukort";
+}
+<h1>Uge Menukort</h1>
+<div class="week-menu-grid">
+    @foreach (var weekMenu in Model.WeekMenus)
+    {
+        <div class="week-menu-item">
+            <h2>Uge @weekMenu.WeekNumber, @weekMenu.Year</h2>
+
+            @foreach (var day in weekMenu.MenuDays.OrderBy(d => d.DayOfWeek))
+            {
+                <h4>@GetDayName(day.DayOfWeek)</h4>
+                <ul>
+                    @foreach (var special in day.DailySpecials)
+                    {
+                        <li>@special.Description — @special.Price kr.</li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+</div>
+
+@functions {
+    string GetDayName(byte dayOfWeek) => dayOfWeek switch
+    {
+        1 => "Mandag",
+        2 => "Tirsdag",
+        3 => "Onsdag",
+        4 => "Torsdag",
+        5 => "Fredag",
+        _ => "Ukendt"
+    };
+}

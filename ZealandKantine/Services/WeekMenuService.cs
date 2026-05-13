@@ -12,10 +12,14 @@ namespace ZealandKantine.Services
             _weekMenuRepository = weekMenuRepository;
         }
 
-        public void Create(WeekMenu weekMenu)
+        public void Create(WeekMenu weekMenu, List<MenuDay> menuDays)
         {
-            _weekMenuRepository.Create(weekMenu);
+            _weekMenuRepository.Create(weekMenu, menuDays);
         }
 
+        public List<WeekMenu> GetAll()
+        {
+            return _weekMenuRepository.GetAll();
+        }
     }
 }
