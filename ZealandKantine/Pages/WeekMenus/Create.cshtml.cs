@@ -80,10 +80,15 @@ namespace ZealandKantine.Pages.WeekMenus
 
         private DateOnly GetDateForDay(int weekNumber, int year, int dayOfWeek)
         {
-            // Find første mandag i den givne uge
+            // Find den 4. januar (altid i uge 1 per ISO 8601)
             var jan4 = new DateTime(year, 1, 4);
-            var monday = jan4.AddDays(7 * (weekNumber - 1) - (int)jan4.DayOfWeek + 1);
-            return DateOnly.FromDateTime(monday.AddDays(dayOfWeek - 1));
+            // Find mandagen i uge 1
+            int daysToMonday = ((int)jan4.DayOfWeek - 1 + 7) % 7;
+            var week1Monday = jan4.AddDays(-daysToMonday);
+            // Find mandagen i den ønskede uge
+            var targetMonday = week1Monday.AddDays((weekNumber - 1) * 7);
+            // Læg ugedage til (1=mandag, 2=tirsdag osv.)
+            return DateOnly.FromDateTime(targetMonday.AddDays(dayOfWeek - 1));
         }
     }
 
