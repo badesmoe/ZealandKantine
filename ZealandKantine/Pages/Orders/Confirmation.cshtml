@@ -5,6 +5,20 @@
     <h2>Tak for din bestilling, @Model.Order.User.Name!</h2>
     <p>Din ordre er registreret og klar til afhentning kl. @Model.Order.ReadyAt.ToString("HH:mm")</p>
 
+    <p>
+        Status på ordre:
+
+        <span class="badge
+        @(Model.Order.Status == "Modtaget" ? "bg-primary" :
+                        Model.Order.Status == "Tilberedes" ? "bg-warning" :
+                        Model.Order.Status == "Klar" ? "bg-success" :
+                        "bg-secondary")">
+
+            @Model.Order.Status
+
+        </span>
+    </p>
+
     <h4>Ordreoversigt</h4>
     <table>
         <thead>

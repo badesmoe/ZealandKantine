@@ -1,0 +1,163 @@
+﻿@page
+@model ZealandKantine.Pages.Orders.ManageModel
+
+<h1>Administrer Ordrer</h1>
+<meta http-equiv="refresh" content="30">
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Ordre ID</th>
+            <th>MedarbejderBestilling</th>
+            <th>Medarbejder</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Ændre status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var order in Model.Orders)
+        {
+            <tr>
+
+                <td>@order.Id</td>
+                <td>
+
+                    @foreach (var line in order.OrderLines.Where(l => l.Quantity > 0 &&
+                             (l.MenuItem != null || l.DailySpecial != null)))
+                    {
+                        <div class="mb-1">
+
+                            <span class="fw-bold">
+                                @line.Quantity x
+                            </span>
+
+                            @if (line.MenuItem != null)
+                            {
+                                @line.MenuItem.Name
+                            }
+                            else
+                            {
+                                @line.DailySpecial.Description
+                            }
+
+                        </div>
+                    }
+                <td>
+                    @(order.User != null ? order.User.Name : "Ukendt")
+                </td>
+
+                <td>@order.NetTotal kr</td>
+                <td>
+
+                    @switch (order.Status)
+                    {
+                        case "Modtaget":
+                            <span class="badge bg-warning text-dark">
+                                🟡 Modtaget
+                            </span>
+                            break;
+
+                        case "Tilberedes":
+                            <span class="badge bg-primary">
+                                🟠 Tilberedes
+                            </span>
+                            break;
+
+                        case "Klar":
+                            <span class="badge bg-success">
+                                🟢 Klar
+                            </span>
+                            break;
+
+                        case "Afhentet":
+                            <span class="badge bg-secondary">
+                                ⚫ Afhentet
+                            </span>
+                            break;
+
+                        default:
+                            <span class="badge bg-dark">
+                                @order.Status
+                            </span>
+                            break;
+                    }
+
+                </td>
+
+                <td>
+
+                    <form method="post">
+
+                        <input type="hidden"
+                               name="orderId"
+                               value="@order.Id" />
+
+                        <select name="status" class="status-select">
+
+                            <option value="Modtaget"
+                                    selected="@(order.Status == "Modtaget")">
+                                Modtaget
+                            </option>
+
+                            <option value="Tilberedes"
+                                    selected="@(order.Status == "Tilberedes")">
+                                Tilberedes
+                            </option>
+
+                            <option value="Klar"
+                                    selected="@(order.Status == "Klar")">
+                                Klar
+                            </option>
+
+                            <option value="Afhentet"
+                                    selected="@(order.Status == "Afhentet")">
+                                Afhentet
+                            </option>
+
+                        </select>
+
+                        <button type="submit"
+                                asp-page-handler="UpdateStatus"
+                                class="btn btn-primary update-button">
+
+                            Opdater
+
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+    
+</table>
+
+<script>
+    document.querySelectorAll('.update-button').forEach(button => {
+
+        button.addEventListener('click', function (event) 
+        {
+
+            const form = button.closest('form');
+            const status = form.querySelector('.status-select').value;
+
+            if (status === 'Afhentet') 
+            {
+
+                const confirmed = confirm(
+                    'Er du sikker på, at ordren er afhentet?');
+
+                if (!confirmed) 
+                {
+                    event.preventDefault();
+                }
+            }
+        });
+    });
+</script>
