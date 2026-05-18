@@ -1,0 +1,47 @@
+﻿@page
+@model ZealandKantine.Pages.WeekMenus.CreateModel
+@{
+    ViewData["Title"] = "Opret Ugemenu";
+}
+<h1>Opret Ugemenu</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="WeekMenu.WeekNumber" class="control-label"></label>
+        <input asp-for="WeekMenu.WeekNumber" class="form-control" />
+        <span asp-validation-for="WeekMenu.WeekNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="WeekMenu.Year" class="control-label"></label>
+        <input asp-for="WeekMenu.Year" class="form-control" />
+        <span asp-validation-for="WeekMenu.Year" class="text-danger"></span>
+    </div>
+
+    <h4 class="mt-4">Vælg retter pr. dag</h4>
+
+    @{
+        var dage = new[] { "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag" };
+    }
+
+    @for (int i = 0; i < 5; i++)
+    {
+        <div class="card mb-3">
+            <div class="card-header">@dage[i]</div>
+            <div class="card-body">
+                <input type="hidden" name="MenuDays[@i].DayOfWeek" value="@(i + 1)" />
+
+                <div class="form-group">
+                    <label>Vælg ret(ter)</label>
+                    <select name="MenuDays[@i].SelectedDailySpecialIds"
+                            asp-items="Model.DailySpecialsSelectList"
+                            multiple class="form-control" size="5">
+                    </select>
+                    <small class="text-muted">Hold Ctrl (Windows) eller Cmd (Mac) for at vælge flere.</small>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Opret" class="btn btn-primary" />
+    </div>
+</form>

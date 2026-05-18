@@ -1,0 +1,37 @@
+﻿@page
+@model ZealandKantine.Pages.WeekMenus.IndexModel
+@{
+    ViewData["Title"] = "Uge Menukort";
+}
+<h1>Uge  Menukort</h1>
+
+@if (Model.WeekMenu.Any())
+{
+    @foreach (var day in Model.WeekMenu.First().MenuDays.OrderBy(d => d.DayOfWeek))
+    {
+        @foreach (var special in day.DailySpecials)
+        {
+            <div class="daily-special">
+                <h2>@GetDayName(day.DayOfWeek)</h2>
+                <p>@special.Description</p>
+                <p class="daily-special-price">@special.Price kr.</p>
+            </div>
+        }
+    }
+}
+else
+{
+    <p>Ingen ugemenu tilgængelig for denne uge.</p>
+}
+
+@functions {
+    string GetDayName(byte dayOfWeek) => dayOfWeek switch
+    {
+        1 => "Mandag",
+        2 => "Tirsdag",
+        3 => "Onsdag",
+        4 => "Torsdag",
+        5 => "Fredag",
+        _ => "Ukendt"
+    };
+}

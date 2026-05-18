@@ -22,4 +22,7 @@ public partial class WeekMenu
 
     [Column(TypeName = "datetime")]
     public DateTime EmailSentAt { get; set; }
+
+    [InverseProperty("WeekMenu")]
+    public virtual ICollection<MenuDay> MenuDays { get; set; } = new List<MenuDay>();
 }

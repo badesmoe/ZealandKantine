@@ -11,7 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<MenuService>();
 builder.Services.AddScoped<MenuItemRepository>();
-
+builder.Services.AddScoped<WeekMenuService>();
+builder.Services.AddScoped<MenuService>();
+builder.Services.AddScoped<WeekMenuRepository>();
 builder.Services.AddScoped<DailySpecialRepository>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();

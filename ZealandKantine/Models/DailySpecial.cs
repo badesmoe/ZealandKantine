@@ -25,4 +25,13 @@ public partial class DailySpecial
 
     [Column(TypeName = "decimal(10, 2)")]
     public decimal? Price { get; set; }
+
+    public int? MenuDayId { get; set; }
+
+    [ForeignKey("MenuDayId")]
+    [InverseProperty("DailySpecials")]
+    public virtual MenuDay MenuDay { get; set; }
+
+    [InverseProperty("DailySpecial")]
+    public virtual ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
 }
