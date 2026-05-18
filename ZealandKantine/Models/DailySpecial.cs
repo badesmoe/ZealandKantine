@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZealandKantine.Models;
 
+
 [Table("DailySpecial")]
 public partial class DailySpecial
 {
