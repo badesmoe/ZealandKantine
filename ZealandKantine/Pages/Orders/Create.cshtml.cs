@@ -46,8 +46,11 @@ namespace ZealandKantine.Pages.Orders
                 UserId = _userService.GetUserIdByName(User.Identity.Name) ?? 0,
                 OrderDateTime = DateTime.Now,
                 ReadyAt = DateTime.Now.AddMinutes(60),
-                Status = "Created",
-                OrderLines = OrderLines
+                Status = "Modtaget",
+                OrderLines = OrderLines,
+                NetTotal = OrderLines.Sum(ol => ol.Quantity * ol.UnitPrice),
+                GrossTotal = OrderLines.Sum(ol => ol.Quantity * ol.UnitPrice),
+                DiscountTotal = 0
             };
 
             _orderService.CreateOrder(order);

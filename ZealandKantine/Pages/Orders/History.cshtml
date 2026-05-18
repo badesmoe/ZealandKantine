@@ -1,0 +1,90 @@
+﻿@page
+@model ZealandKantine.Pages.Orders.HistoryModel
+
+<h1>
+    Ordrehistorik - @Model.SelectedDate.ToString("dd-MM-yyyy")
+</h1>
+
+<div class="d-flex align-items-center gap-2 mb-3">
+
+    <form method="get" class="d-flex align-items-center gap-2">
+
+        <input type="date"
+               name="selectedDate"
+               value="@Model.SelectedDate.ToString("yyyy-MM-dd")"
+               class="form-control"
+               style="width: 200px;" />
+
+        <button type="submit"
+                class="btn btn-primary">
+
+            Søg
+
+        </button>
+
+    </form>
+
+    <a asp-page="/Orders/History"
+       class="btn btn-secondary">
+
+        I dag
+
+    </a>
+
+    <a asp-page="/Orders/History"
+       asp-route-selectedDate="@DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd")"
+       class="btn btn-outline-secondary">
+
+        I går
+
+    </a>
+
+    <a asp-page="/Orders/History"
+       asp-route-selectedDate="@DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd")"
+       class="btn btn-outline-secondary">
+
+        Sidste 7 dage
+
+    </a>
+
+</div>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Ordre ID</th>
+            <th>Dato</th>
+            <th>Status</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var order in Model.Orders)
+        {
+            <tr>
+
+                <td>@order.Id</td>
+
+                <td>
+                    @order.OrderDateTime.ToString("dd/MM/yyyy HH:mm")
+                </td>
+
+                <td>
+                    <span class="badge bg-secondary">
+                        Afhentet
+                    </span>
+                </td>
+
+                <td>
+                    @order.NetTotal kr
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

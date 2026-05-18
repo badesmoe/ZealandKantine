@@ -18,6 +18,8 @@ namespace ZealandKantine.Services
         private const int MenuItemDiscountPercent = 10;
         public void CreateOrder(Order order)
         {
+            order.Status = "Modtaget";
+
             foreach (var item in order.OrderLines)
             {
                 if (item.MenuItemId.HasValue)
@@ -48,5 +50,10 @@ namespace ZealandKantine.Services
         {
             return _orderRepository.GetLatestOrderByUserId(userId);
         }
+        public void UpdateOrderStatus(int orderId, string status)
+        {
+            _orderRepository.UpdateStatus(orderId, status);
+        }
+
     }
 }

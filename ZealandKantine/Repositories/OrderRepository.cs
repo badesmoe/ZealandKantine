@@ -19,7 +19,17 @@ namespace ZealandKantine.Repositories
         }
         public List<Order> ReadAll()
         {
-            return _dbContext.Orders.ToList();
+            return _dbContext.Orders
+                .Include(o => o.User)
+
+                .Include(o => o.OrderLines)
+                .ThenInclude(ol => ol.MenuItem)
+
+                .Include(o => o.OrderLines)
+                .ThenInclude(ol => ol.DailySpecial)
+
+                .OrderByDescending(o => o.OrderDateTime)
+                .ToList();
         }
         public Order? Read(int id)
         {
@@ -57,6 +67,31 @@ namespace ZealandKantine.Repositories
                 .ThenInclude(ol => ol.DailySpecial)
                 .OrderByDescending(o => o.OrderDateTime)
                 .FirstOrDefault(o => o.UserId == userId);
+        }
+        public void UpdateStatus(int orderId, string status)
+        {
+            var order = _dbContext.Orders.Find(orderId);
+
+            if (order != null)
+            {
+                order.Status = status;
+                _dbContext.SaveChanges();
+            }
+        }
+
+        public List<Order> GetActiveOrders()
+        {
+            return _dbContext.Orders
+                .Where(o => o.Status != "Afhentet")
+                .OrderBy(o => o.OrderDateTime)
+                .ToList();
+        }
+        public List<Order> GetCompletedOrders()
+        {
+            return _dbContext.Orders
+                .Where(o => o.Status == "Afhentet")
+                .OrderByDescending(o => o.OrderDateTime)
+                .ToList();
         }
     }
 }
