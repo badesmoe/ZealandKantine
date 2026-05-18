@@ -26,7 +26,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Logon/Login";
     });
-builder.Services.AddDbContext<CafeZea>(options => options.UseSqlServer(ConnectionString.GetConnectionString()));
+builder.Services.AddDbContext<CafeZea>(options => options.UseSqlServer(ConnectionString.GetConnectionString(), options => options.UseCompatibilityLevel(120)));
 
 var app = builder.Build();
 

@@ -29,14 +29,21 @@ namespace ZealandKantine.Repositories
                     .ThenInclude(d => d.DailySpecials)
                 .FirstOrDefault(w => w.Id == weekMenuId);
 
-            if (weekMenu == null) return;
+            if (weekMenu == null)
+                return;
 
             foreach (var dayInput in menuDays)
             {
-                var menuDay = weekMenu.MenuDays.FirstOrDefault(d => d.Id == dayInput.Id);
-                if (menuDay == null) continue;
+                var menuDay = weekMenu.MenuDays
+                    .FirstOrDefault(d => d.Id == dayInput.Id);
 
-                // Fjern retter der ikke længere er valgt ved at sætte MenuDayId til null
+                if (menuDay == null)
+                    continue;
+
+                // Update fields
+                menuDay.DayOfWeek = (byte)dayInput.DayOfWeek;
+
+                // Remove unselected specials
                 foreach (var existing in menuDay.DailySpecials.ToList())
                 {
                     if (dayInput.SelectedDailySpecialIds == null ||
@@ -46,11 +53,15 @@ namespace ZealandKantine.Repositories
                     }
                 }
 
-                // Tilføj nyvalgte retter
-                var ids = dayInput.SelectedDailySpecialIds.ToList();
+                // Add selected specials
                 var selectedSpecials = _dbContext.DailySpecials
-                    .Where(ds => ids.Contains(ds.Id))
+                    .Where(ds => dayInput.SelectedDailySpecialIds.Contains(ds.Id))
                     .ToList();
+
+                foreach (var special in selectedSpecials)
+                {
+                    special.MenuDayId = menuDay.Id;
+                }
             }
 
             _dbContext.SaveChanges();
