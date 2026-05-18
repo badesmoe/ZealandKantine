@@ -30,62 +30,59 @@ else
                 <div class="menu-category">
                     @foreach (var item in group)
                     {
-                        <div class="menu-item" style="position: relative; padding-bottom: 5rem;">
+                        <div class="menu-item">
                             <span class="menu-item__category">@item.Category</span>
                             <h3 class="menu-item__name">@item.Name</h3>
                             <p class="menu-item__price">@item.Price.ToString("0.00")</p>
 
-                            
-                            <form method="post"
-                                  asp-page-handler="Update"
-                                  style="position: absolute; bottom: 0.75rem; left: 0.75rem; right: 4.5rem;">
-                                <input type="hidden" name="MenuItem.Id" value="@item.Id" />
-                                <input type="hidden" name="MenuItem.Name" value="@item.Name" />
-                                <input type="hidden" name="MenuItem.Category" value="@item.Category" />
-                                
-                                <div style="display: grid; grid-template-columns: 60px auto; gap: 0.35rem; align-items: end;">
-                                    <div>
-                                        <label for="price-@item.Id" class="form-label small mb-1" style="display: block;">Pris</label>
-                                        <input type="number" 
-                                               id="price-@item.Id"
-                                               name="Price" 
-                                               value="@item.Price.ToString("0.00")" 
-                                               step="0.01"
-                                               min="0"
-                                               class="form-control form-control-sm" 
-                                               style="width: 60px;" />
-                                    </div>
+                            <div class="menu-item__actions">
+                                <form method="post"
+                                      asp-page-handler="Update"
+                                      class="menu-item__form-update">
+                                    <input type="hidden" name="MenuItem.Id" value="@item.Id" />
+                                    <input type="hidden" name="MenuItem.Name" value="@item.Name" />
+                                    <input type="hidden" name="MenuItem.Category" value="@item.Category" />
                                     
-                                    <div style="display: flex; gap: 0.35rem; align-items: center;">
-                                        <div class="form-check" style="margin-bottom: 0;">
+                                    <div class="menu-item__controls">
+                                        <div class="menu-item__price-field">
+                                            <label for="price-@item.Id" class="form-label">Pris</label>
+                                            <input type="number" 
+                                                   id="price-@item.Id"
+                                                   name="Price" 
+                                                   value="@item.Price.ToString("0.00")" 
+                                                   step="0.01"
+                                                   min="0"
+                                                   class="form-control form-control-sm" />
+                                        </div>
+                                        
+                                        <div class="menu-item__checkbox">
                                             <input type="checkbox" 
                                                    id="active-@item.Id"
                                                    name="MenuItem.IsActive" 
                                                    value="true"
                                                    @(item.IsActive ? "checked" : "")
                                                    class="form-check-input" />
-                                            <label class="form-check-label" for="active-@item.Id" style="font-size: 0.85rem; margin-bottom: 0;">
+                                            <label class="form-check-label" for="active-@item.Id">
                                                 Aktiv
                                             </label>
                                         </div>
                                         
-                                        <button type="submit" class="btn btn-primary btn-sm" style="white-space: nowrap;">
+                                        <button type="submit" class="btn btn-primary btn-sm">
                                             Gem
                                         </button>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
 
-                            
-                            <form method="post"
-                                  asp-page-handler="Delete"
-                                  style="position: absolute; bottom: 0.75rem; right: 0.75rem;"
-                                  onsubmit="return confirm('Er du sikker på, at du vil slette »@item.Name«? Denne handling kan ikke fortrydes.');">
-                                <input type="hidden" name="MenuItem.Id" value="@item.Id" />
-                                <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center gap-1">
-                                    ✕ Slet
-                                </button>
-                            </form>
+                                <form method="post"
+                                      asp-page-handler="Delete"
+                                      class="menu-item__form-delete"
+                                      onsubmit="return confirm('Er du sikker på, at du vil slette »@item.Name«? Denne handling kan ikke fortrydes.');">
+                                    <input type="hidden" name="MenuItem.Id" value="@item.Id" />
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        ✕ Slet
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     }
                 </div>
