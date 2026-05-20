@@ -59,5 +59,20 @@ namespace ZealandKantine.Services
             return _orderRepository.GetOrdersByUserId(userId);
         }
 
+        public List<Order> GetCompletedOrdersFiltered(
+         string? employeeName,
+         string? period)
+        {
+            return _orderRepository
+                .GetCompletedOrdersFiltered(
+                    employeeName,
+                    period);
+        }
+
+        public List<Order> ReadAll()
+        {
+            return _orderRepository.ReadAll();
+        }
+
     }
 }

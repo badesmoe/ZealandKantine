@@ -1,0 +1,70 @@
+﻿@page
+@model ZealandKantine.Pages.Orders.OrderHistoryModel
+
+<h1>Ordrehistorik</h1>
+
+<form method="get" class="mb-4 d-flex gap-2">
+
+    <input type="text"
+           name="employeeSearch"
+           value="@Model.EmployeeSearch"
+           class="form-control"
+           placeholder="Søg medarbejder..." />
+
+    <select name="periodFilter"
+            class="form-select">
+
+        <option value="">Alle perioder</option>
+
+        <option value="thismonth">
+            Denne måned
+        </option>
+
+        <option value="lastmonth">
+            Sidste måned
+        </option>
+
+    </select>
+
+    <button type="submit"
+            class="btn btn-primary">
+
+        Filtrer
+
+    </button>
+
+</form>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Ordre ID</th>
+            <th>Medarbejder</th>
+            <th>Dato</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var order in Model.Orders)
+        {
+            <tr>
+
+                <td>@order.Id</td>
+
+                <td>@order.User.Name</td>
+
+                <td>
+                    @order.OrderDateTime.ToString("dd/MM/yyyy")
+                </td>
+
+                <td>@order.NetTotal kr</td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

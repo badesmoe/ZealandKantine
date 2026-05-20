@@ -128,17 +128,72 @@ namespace ZealandKantine.Repositories
                 .Include(o => o.OrderLines)
                 .ThenInclude(ol => ol.DailySpecial)
 
-                .Where(o =>
-                    o.UserId == userId &&
-                    o.OrderDateTime.Date >= startDate &&
-                    o.OrderDateTime.Date <= endDate)
+                .Where(o => o.UserId == userId &&
+                  o.Status == "Afhentet" &&
+                  o.OrderDateTime.Date >= startDate &&
+                  o.OrderDateTime.Date <= endDate)
 
                 .OrderByDescending(o => o.OrderDateTime)
 
                 .ToList();
         }
 
+        public List<Order> GetCompletedOrdersFiltered(
+    string? employeeName,
+    string? period)
+        {
+            var query = _dbContext.Orders
 
+                .Include(o => o.User)
+
+                .Include(o => o.OrderLines)
+                .ThenInclude(ol => ol.MenuItem)
+
+                .Include(o => o.OrderLines)
+                .ThenInclude(ol => ol.DailySpecial)
+
+                .Where(o => o.Status == "Afhentet");
+
+            // Filter by employee
+            if (!string.IsNullOrEmpty(employeeName))
+            {
+                query = query.Where(o =>
+                    o.User.Name.Contains(employeeName));
+            }
+
+            // Filter by period
+            if (period == "thismonth")
+            {
+                DateTime start = new DateTime(
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    1);
+
+                query = query.Where(o =>
+                    o.OrderDateTime >= start);
+            }
+
+            if (period == "lastmonth")
+            {
+                DateTime start = new DateTime(
+                    DateTime.Now.AddMonths(-1).Year,
+                    DateTime.Now.AddMonths(-1).Month,
+                    1);
+
+                DateTime end = new DateTime(
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    1);
+
+                query = query.Where(o =>
+                    o.OrderDateTime >= start &&
+                    o.OrderDateTime < end);
+            }
+
+            return query
+                .OrderByDescending(o => o.OrderDateTime)
+                .ToList();
+        }
     }
 
     
