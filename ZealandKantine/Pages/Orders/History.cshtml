@@ -1,90 +1,183 @@
-﻿@page
+﻿@page "/orders/history"
 @model ZealandKantine.Pages.Orders.HistoryModel
 
-<h1>
-    Ordrehistorik - @Model.SelectedDate.ToString("dd-MM-yyyy")
-</h1>
+<h1>Mine Tidligere Køb</h1>
 
-<div class="d-flex align-items-center gap-2 mb-3">
+<form method="get" class="mb-4 d-flex gap-2">
 
-    <form method="get" class="d-flex align-items-center gap-2">
+    <input type="text"
+           name="SearchTerm"
+           value="@Model.SearchTerm"
+           class="form-control"
+           placeholder="Søg efter ordre eller status..." />
 
-        <input type="date"
-               name="selectedDate"
-               value="@Model.SelectedDate.ToString("yyyy-MM-dd")"
-               class="form-control"
-               style="width: 200px;" />
+    <select name="PeriodFilter" class="form-select">
 
-        <button type="submit"
-                class="btn btn-primary">
+        <option value="">Alle</option>
 
-            Søg
+        <option value="thismonth">
+            Denne måned
+        </option>
 
-        </button>
+        <option value="lastmonth">
+            Sidste måned
+        </option>
 
-    </form>
+    </select>
 
-    <a asp-page="/Orders/History"
-       class="btn btn-secondary">
+    <button type="submit"
+            class="btn btn-primary">
 
-        I dag
+        Søg
+
+    </button>
+
+</form>
+
+<div class="mb-4 d-flex gap-2">
+
+    <a class="btn @(Model.ViewMode == "cards" || string.IsNullOrEmpty(Model.ViewMode)
+               ? "btn-primary"
+               : "btn-outline-primary")"
+       href="?ViewMode=cards"
+       title="Kortvisning">
+
+        <i class="bi bi-grid-3x3-gap-fill"></i>
 
     </a>
 
-    <a asp-page="/Orders/History"
-       asp-route-selectedDate="@DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd")"
-       class="btn btn-outline-secondary">
+    <a class="btn @(Model.ViewMode == "list"
+               ? "btn-primary"
+               : "btn-outline-primary")"
+       href="?ViewMode=list"
+       title="Listevisning">
 
-        I går
-
-    </a>
-
-    <a asp-page="/Orders/History"
-       asp-route-selectedDate="@DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd")"
-       class="btn btn-outline-secondary">
-
-        Sidste 7 dage
+        <i class="bi bi-list-ul"></i>
 
     </a>
 
 </div>
 
-<table class="table">
+@if (Model.Orders.Count == 0)
+{
+    <p>Ingen tidligere køb fundet.</p>
+}
+else
+{
+    @if (Model.ViewMode == "list")
+    {
+        <table class="table">
 
-    <thead>
-        <tr>
-            <th>Ordre ID</th>
-            <th>Dato</th>
-            <th>Status</th>
-            <th>Total</th>
-        </tr>
-    </thead>
+            <thead>
+                <tr>
+                    <th>Ordre</th>
+                    <th>Dato</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
 
-    <tbody>
+            <tbody>
 
+                @foreach (var order in Model.Orders)
+                {
+                    <tr>
+
+                        <td>#@order.Id</td>
+
+                        <td>
+                            @order.OrderDateTime.ToString("dd/MM/yyyy")
+                        </td>
+
+                        <td>@order.Status</td>
+
+                        <td>@order.NetTotal kr</td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    }
+    else
+    {
         @foreach (var order in Model.Orders)
         {
-            <tr>
+            <div class="card mb-4 shadow-sm border-0">
 
-                <td>@order.Id</td>
+                <div class="card-body">
 
-                <td>
-                    @order.OrderDateTime.ToString("dd/MM/yyyy HH:mm")
-                </td>
+                    <div class="d-flex justify-content-between">
 
-                <td>
-                    <span class="badge bg-secondary">
-                        Afhentet
-                    </span>
-                </td>
+                        <div>
+                            <h4>Ordre #@order.Id</h4>
 
-                <td>
-                    @order.NetTotal kr
-                </td>
+                            <p class="text-muted">
+                                @order.OrderDateTime.ToString("dd/MM/yyyy HH:mm")
+                            </p>
+                        </div>
 
-            </tr>
+                        <div>
+
+                            @if (order.Status == "Modtaget")
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    Modtaget
+                                </span>
+                            }
+
+                            @if (order.Status == "Tilberedes")
+                            {
+                                <span class="badge bg-info">
+                                    Tilberedes
+                                </span>
+                            }
+
+                            @if (order.Status == "Klar")
+                            {
+                                <span class="badge bg-success">
+                                    Klar
+                                </span>
+                            }
+
+                            @if (order.Status == "Afhentet")
+                            {
+                                <span class="badge bg-secondary">
+                                    Afhentet
+                                </span>
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <h5>Produkter</h5>
+
+                    <ul>
+                        @foreach (var line in order.OrderLines)
+                        {
+                            <li>
+                                @(line.MenuItem?.Name ??
+                                                line.DailySpecial?.Description)
+
+                x @line.Quantity
+            </li>
+                        }
+                    </ul>
+
+                    <hr />
+
+                    <h5>
+                        Total:
+                        <strong>@order.NetTotal kr</strong>
+                    </h5>
+
+                </div>
+
+            </div>
         }
-
-    </tbody>
-
-</table>
+    }
+}
