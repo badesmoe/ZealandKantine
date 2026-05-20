@@ -93,5 +93,53 @@ namespace ZealandKantine.Repositories
                 .OrderByDescending(o => o.OrderDateTime)
                 .ToList();
         }
+
+        public List<Order> GetOrdersByUserId(int userId)
+        {
+            DateTime today = DateTime.Today;
+
+            DateTime startDate;
+            DateTime endDate;
+
+            if (today.Day >= 21)
+            {
+                startDate = new DateTime(today.Year, today.Month, 21);
+
+                endDate = new DateTime(
+                    today.AddMonths(1).Year,
+                    today.AddMonths(1).Month,
+                    20);
+            }
+            else
+            {
+                startDate = new DateTime(
+                    today.AddMonths(-1).Year,
+                    today.AddMonths(-1).Month,
+                    21);
+
+                endDate = new DateTime(today.Year, today.Month, 20);
+            }
+
+            return _dbContext.Orders
+
+                .Include(o => o.OrderLines)
+                .ThenInclude(ol => ol.MenuItem)
+
+                .Include(o => o.OrderLines)
+                .ThenInclude(ol => ol.DailySpecial)
+
+                .Where(o =>
+                    o.UserId == userId &&
+                    o.OrderDateTime.Date >= startDate &&
+                    o.OrderDateTime.Date <= endDate)
+
+                .OrderByDescending(o => o.OrderDateTime)
+
+                .ToList();
+        }
+
+
     }
+
+    
 }

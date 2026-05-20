@@ -54,6 +54,10 @@ namespace ZealandKantine.Services
         {
             _orderRepository.UpdateStatus(orderId, status);
         }
+        public List<Order> GetOrdersByUserId(int userId)
+        {
+            return _orderRepository.GetOrdersByUserId(userId);
+        }
 
     }
 }
