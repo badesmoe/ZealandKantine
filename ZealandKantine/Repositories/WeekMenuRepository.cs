@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ZealandKantine.Models;
 using ZealandKantine.Pages.WeekMenus;
+using ZealandKantine.Services;
 
 namespace ZealandKantine.Repositories
 {
@@ -20,6 +21,10 @@ namespace ZealandKantine.Repositories
 
             _dbContext.WeekMenus.Add(weekMenu);
             _dbContext.SaveChanges();
+
+            EmailService emailService = new(new UserService(new UserRepository(_dbContext)));
+
+            emailService.SendWeekMenu();
         }
 
         public void Update(int weekMenuId, List<MenuDayInput> menuDays)
@@ -65,6 +70,10 @@ namespace ZealandKantine.Repositories
             }
 
             _dbContext.SaveChanges();
+
+            EmailService emailService = new(new UserService(new UserRepository(_dbContext)));
+
+            emailService.SendUpdatedWeekMenu();
         }
 
         public List<WeekMenu> GetCurrentWeek()

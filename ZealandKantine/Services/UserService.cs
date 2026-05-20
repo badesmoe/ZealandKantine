@@ -31,5 +31,10 @@ namespace ZealandKantine.Services
         {
             return _userRepository.GetUserIdByName(name);
         }
+
+        public List<User> GetUsers()
+        {
+            return _userRepository.GetAll();
+        }
     }
 }
