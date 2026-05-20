@@ -13,7 +13,7 @@
         <div class="order-line">
             <span>@Model.TodaysDailySpecial.Description</span>
             <span>35 kr</span>
-            <input type="number" name="OrderLines[0].Quantity" min="0" max="1" value="0" class="quantity-input" data-price="35" data-isdiscount="false" />
+            <input type="number" name="OrderLines[0].Quantity" min="0" max="1" value="0" class="quantity-input" data-price="35" data-isdiscount="true" />
             <input type="hidden" name="OrderLines[0].DailySpecialId" value="@Model.TodaysDailySpecial.Id" />
         </div>
     }
@@ -41,7 +41,7 @@
         </div>
     }
 
-    <!-- Totaler -->
+   @*  Totaler *@
     <hr />
     <p>Bruttopris: <span id="grossTotal">0</span> kr</p>
     <p>Rabat: <span id="discountTotal">0</span> kr</p>
