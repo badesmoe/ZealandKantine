@@ -28,9 +28,7 @@
 
     <button type="submit"
             class="btn btn-primary">
-
         Filtrer
-
     </button>
 
 </form>
@@ -51,17 +49,10 @@
         @foreach (var order in Model.Orders)
         {
             <tr>
-
                 <td>@order.Id</td>
-
                 <td>@order.User.Name</td>
-
-                <td>
-                    @order.OrderDateTime.ToString("dd/MM/yyyy")
-                </td>
-
+                <td>@order.OrderDateTime.ToString("dd/MM/yyyy")</td>
                 <td>@order.NetTotal kr</td>
-
             </tr>
         }
 

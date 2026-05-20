@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using ZealandKantine.Models;
 using ZealandKantine.Repositories;
 
@@ -72,6 +73,11 @@ namespace ZealandKantine.Services
         public List<Order> ReadAll()
         {
             return _orderRepository.ReadAll();
+        }
+
+        public List<Order> GetOrdersByName(string? name)
+        {
+            return _orderRepository.GetOrdersByName(name);
         }
 
     }

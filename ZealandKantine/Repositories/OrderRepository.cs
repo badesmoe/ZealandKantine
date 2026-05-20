@@ -138,9 +138,7 @@ namespace ZealandKantine.Repositories
                 .ToList();
         }
 
-        public List<Order> GetCompletedOrdersFiltered(
-    string? employeeName,
-    string? period)
+        public List<Order> GetCompletedOrdersFiltered(string? employeeName, string? period)
         {
             var query = _dbContext.Orders
 
@@ -194,7 +192,30 @@ namespace ZealandKantine.Repositories
                 .OrderByDescending(o => o.OrderDateTime)
                 .ToList();
         }
-    }
 
-    
+        public List<Order> GetOrdersByName(string? name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return ReadAll();
+            }
+
+            name = name.ToLower();
+
+            return _dbContext.Orders
+                .Include(o => o.User)
+
+                .Include(o => o.OrderLines)
+                .ThenInclude(ol => ol.MenuItem)
+
+                .Include(o => o.OrderLines)
+                .ThenInclude(ol => ol.DailySpecial)
+
+                .Where(o => o.User != null &&
+                            o.User.Name.ToLower().Contains(name))
+
+                .OrderByDescending(o => o.OrderDateTime)
+                .ToList();
+        }
+    }
 }
