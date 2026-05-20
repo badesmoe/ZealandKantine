@@ -5,12 +5,10 @@ namespace ZealandKantine.Services
     public class EmailService
     {
 		private readonly UserService _userService;
-        private readonly OrderService _orderService;
 
-        public EmailService(UserService userService, OrderService orderService)
+        public EmailService(UserService userService)
         {
             _userService = userService;
-            _orderService = orderService;
         }
 
         public void SendWeekMenu()
@@ -35,12 +33,19 @@ namespace ZealandKantine.Services
             }
         }
 
-        public void SendDeletedDailySpecial()
+        public void SendDeletedOrder(Order deletedOrder)
         {
+            List<User> employees = _userService.GetUsers()
+                .Where(u => u.Orders.Any(o => o.Id == deletedOrder.Id))
+                .ToList();
 
+            foreach(User e in employees)
+            {
+                TrySendEmail(e.Email, "Ordre er blevet sletted", $"Din ordre er blevet sletted");
+            }
         }
 
-        public void TrySendEmail(string toAddress, string subject, string body)
+        private void TrySendEmail(string toAddress, string subject, string body)
         {
 
 			try
