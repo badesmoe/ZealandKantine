@@ -67,7 +67,7 @@ namespace ZealandKantine.Repositories
                 .Include(md => md.MenuDaySpecials)
                     .ThenInclude(mds => mds.DailySpecial)
                 .SelectMany(md => md.MenuDaySpecials.Select(mds => mds.DailySpecial))
-                .FirstOrDefault(s => s != null && s.IsActive);
+                .FirstOrDefault(s => s != null);
         }
 
         public IEnumerable<DailySpecial> GetAllDailySpecials()

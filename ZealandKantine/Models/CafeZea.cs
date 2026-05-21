@@ -31,6 +31,8 @@ public partial class CafeZea : DbContext
 
     public virtual DbSet<WeekMenu> WeekMenus { get; set; }
 
+    public DbSet<MenuDaySpecial> MenuDaySpecials { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -89,6 +91,26 @@ public partial class CafeZea : DbContext
         modelBuilder.Entity<WeekMenu>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__tmp_ms_x__3214EC07E5B45471");
+        });
+
+        modelBuilder.Entity<MenuDaySpecial>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.HasOne(e => e.MenuDay)
+                .WithMany(d => d.MenuDaySpecials)
+                .HasForeignKey(e => e.MenuDayId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_MenuDaySpecial_MenuDay");
+
+            entity.HasOne(e => e.DailySpecial)
+                .WithMany(s => s.MenuDaySpecials)
+                .HasForeignKey(e => e.DailySpecialId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_MenuDaySpecial_Special");
+
+            entity.HasIndex(e => new { e.MenuDayId, e.DailySpecialId })
+                .IsUnique(); // prevents duplicate assignments
         });
 
         OnModelCreatingPartial(modelBuilder);
