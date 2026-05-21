@@ -1,0 +1,13 @@
+﻿name: Monthly Report
+
+on:
+  schedule:
+    - cron: '0 8 20 * *'
+
+jobs:
+  trigger-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call monthly report endpoint
+        run: |
+          curl -X POST https://din-app-url.dk/api/monthly-report
