@@ -71,13 +71,13 @@
             @{
                 if (!User.Identity.IsAuthenticated)
                 {
-                    <li class="nav-item">
+                    <div class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/Logon/Login">Log Ind</a>
-                    </li>
+                    </div>
                 }
                 else
                 {
-                    <li class="nav-item dropdown">
+                    <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-dark"
                            href="#"
                            id="userDropdown"
@@ -88,24 +88,24 @@
                         </a>
 
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li>
+                            <div>
                                 <span class="dropdown-item-text text-muted">
                                     Logget ind som<br />
                                     <strong>@Context.User.Identity?.Name</strong>
                                 </span>
-                            </li>
+                            </div>
 
-                            <li><hr class="dropdown-divider" /></li>
+                            <div><hr class="dropdown-divider" /></div>
 
-                            <li>
+                            <div>
                                 <form method="post" asp-page="/Logon/Logout" class="m-0">
                                     <button type="submit" class="dropdown-item">
                                         Log ud
                                     </button>
                                 </form>
-                            </li>
+                            </div>
                         </ul>
-                    </li>
+                    </div>
                 }
             }
         </nav>
