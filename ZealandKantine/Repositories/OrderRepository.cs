@@ -217,5 +217,19 @@ namespace ZealandKantine.Repositories
                 .OrderByDescending(o => o.OrderDateTime)
                 .ToList();
         }
+
+        public List<(int UserId, decimal Total)> GetMonthlyTotalPerUser(int month, int year)
+        {
+            DateTime startDate = new DateTime(year, month, 21).AddMonths(-1);
+            DateTime endDate = new DateTime(year, month, 20);
+
+            return _dbContext.Orders
+                .Where(o => o.Status == "Afhentet" &&
+                            o.OrderDateTime.Date >= startDate &&
+                            o.OrderDateTime.Date <= endDate)
+                .GroupBy(o => o.UserId)
+                .Select(g => new ValueTuple<int, decimal>(g.Key, g.Sum(o => o.NetTotal)))
+                .ToList();
+        }
     }
 }
