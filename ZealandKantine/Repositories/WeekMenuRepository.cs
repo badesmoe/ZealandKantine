@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using ZealandKantine.Models;
 using ZealandKantine.Pages.WeekMenus;
 using ZealandKantine.Services;
@@ -22,7 +23,7 @@ namespace ZealandKantine.Repositories
             _dbContext.WeekMenus.Add(weekMenu);
             _dbContext.SaveChanges();
 
-            EmailService emailService = new(new UserService(new UserRepository(_dbContext)));
+            EmailService emailService = new(new UserService(new UserRepository(_dbContext)), new WeekMenuService(new WeekMenuRepository(_dbContext)));
 
             emailService.SendWeekMenu();
         }
@@ -67,7 +68,7 @@ namespace ZealandKantine.Repositories
 
             _dbContext.SaveChanges();
 
-            EmailService emailService = new(new UserService(new UserRepository(_dbContext)));
+            EmailService emailService = new(new UserService(new UserRepository(_dbContext)), new WeekMenuService(new WeekMenuRepository(_dbContext)));
             emailService.SendUpdatedWeekMenu();
         }
 
