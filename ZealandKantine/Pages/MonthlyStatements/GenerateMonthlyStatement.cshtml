@@ -1,4 +1,121 @@
 ﻿@page
-@model ZealandKantine.Pages.MonthlyStatements.GenerateMonthlyStatement
-@{
+@model ZealandKantine.Pages.MonthlyStatements.MyStatementsModel
+
+<h1 class="mb-4">Mine månedlige opgørelser</h1>
+
+<form method="get" class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <label class="form-label">Måned</label>
+
+        <select name="month" class="form-select">
+
+            <option value="">Alle måneder</option>
+
+            @for (int i = 1; i <= 12; i++)
+            {
+                <option value="@i">
+                    @i
+                </option>
+            }
+
+        </select>
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">År</label>
+
+        <select name="year" class="form-select">
+
+            <option value="">Alle år</option>
+
+            @for (int y = DateTime.Now.Year; y >= 2024; y--)
+            {
+                <option value="@y">
+                    @y
+                </option>
+            }
+
+        </select>
+    </div>
+
+    <div class="col-md-4 d-flex align-items-end">
+
+        <button type="submit"
+                class="btn btn-primary w-100">
+
+            Filtrer
+
+        </button>
+
+    </div>
+
+</form>
+
+@if (!Model.Statements.Any())
+{
+    <div class="alert alert-warning">
+
+        Ingen månedlige opgørelser fundet.
+
+    </div>
+}
+else
+{
+    decimal total = Model.Statements.Sum(s => s.TotalAmount);
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h4>Samlet forbrug</h4>
+
+            <h2 class="text-primary">
+                @total.ToString("0.00") kr
+            </h2>
+
+        </div>
+
+    </div>
+
+    @foreach (var s in Model.Statements)
+    {
+        <div class="card shadow-sm mb-3">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        <h4>
+                            Måned:
+                            @s.Month / @s.Year
+                        </h4>
+
+                        <p class="text-muted">
+
+                            Genereret:
+                            @s.GeneratedAt.ToString("dd-MM-yyyy")
+
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <span class="badge bg-success p-3">
+
+                            @s.TotalAmount.ToString("0.00") kr
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
 }
