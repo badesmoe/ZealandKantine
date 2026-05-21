@@ -3,6 +3,7 @@
 on:
   schedule:
     - cron: '0 8 20 * *'
+  workflow_dispatch:
 
 jobs:
   trigger-report:
@@ -10,4 +11,4 @@ jobs:
     steps:
       - name: Call monthly report endpoint
         run: |
-          curl -X POST https://din-app-url.dk/api/monthly-report
+          curl -X POST https://cafezea.dk/GenerateStatements
