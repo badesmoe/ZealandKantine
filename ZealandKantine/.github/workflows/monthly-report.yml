@@ -11,4 +11,4 @@ jobs:
     steps:
       - name: Call monthly report endpoint
         run: |
-          curl -X POST https://cafezea.dk/GenerateStatements
+          curl -X POST https://localhost:7230/MonthlyStatements/GenerateMonthlyStatement

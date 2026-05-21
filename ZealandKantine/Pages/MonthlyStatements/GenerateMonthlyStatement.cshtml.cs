@@ -7,11 +7,12 @@ using ZealandKantine.Repositories;
 
 namespace ZealandKantine.Pages.MonthlyStatements
 {
-    public class GenerateStatementModel : PageModel
+    [IgnoreAntiforgeryToken]
+    public class GenerateMonthlyStatement : PageModel
     {
         private readonly OrderService _orderService;
 
-        public GenerateStatementModel(OrderService orderService)
+        public GenerateMonthlyStatement(OrderService orderService)
         {
             _orderService = orderService;
         }
