@@ -46,8 +46,11 @@ namespace ZealandKantine.Pages.Logon
         private ClaimsPrincipal BuildClaimsPrincipal(User user)
         {
             // Opbyg Claims-liste
-            List<Claim> claims = [new Claim(ClaimTypes.Name, user.Name),
-                              new Claim(ClaimTypes.Role, user.Role)];
+            List<Claim> claims = [
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim("UserId", user.Id.ToString())
+            ];
 
             // Opret ClaimsIdentity (claims plus Authentication-strategi)
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(
