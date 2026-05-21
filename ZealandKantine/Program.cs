@@ -20,6 +20,8 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<OrderRepository>();
 builder.Services.AddScoped<MonthlyStatementRepository>();
+builder.Services.AddScoped<AnalysisRepository>();
+builder.Services.AddScoped<AnalysisService>();
 builder.Services.AddDbContext<CafeZea>(o => o.UseSqlServer(ConnectionString.GetConnectionString()));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
