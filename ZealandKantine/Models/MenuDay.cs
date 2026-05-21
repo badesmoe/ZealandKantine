@@ -21,7 +21,7 @@ public partial class MenuDay
     public DateOnly Date { get; set; }
 
     [InverseProperty("MenuDay")]
-    public virtual ICollection<DailySpecial> DailySpecials { get; set; } = new List<DailySpecial>();
+    public virtual ICollection<MenuDaySpecial> MenuDaySpecials { get; set; } = new List<MenuDaySpecial>();
 
     [ForeignKey("WeekMenuId")]
     [InverseProperty("MenuDays")]

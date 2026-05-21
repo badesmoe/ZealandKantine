@@ -45,7 +45,7 @@ namespace ZealandKantine.Pages.WeekMenus
                     {
                         Id = d.Id,
                         DayOfWeek = d.DayOfWeek,
-                        SelectedDailySpecialIds = d.DailySpecials.Select(ds => ds.Id).ToList()
+                        SelectedDailySpecialIds = d.MenuDaySpecials.Select(mds => mds.DailySpecialId).ToList()
                     }).ToList();
             }
         }

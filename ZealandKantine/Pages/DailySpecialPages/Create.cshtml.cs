@@ -32,7 +32,7 @@ public class CreateModel : PageModel
         DailySpecial.IsActive = true;
 
         // Turn old specials off
-        _repository.DeactivateOldSpecials(DailySpecial.Date);
+        //_repository.DeactivateOldSpecials(DailySpecial.Date);
 
         // Save new special
         _repository.Create(DailySpecial);

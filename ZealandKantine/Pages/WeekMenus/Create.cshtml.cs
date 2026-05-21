@@ -58,9 +58,10 @@ namespace ZealandKantine.Pages.WeekMenus
             {
                 DayOfWeek = (byte)d.DayOfWeek,
                 Date = GetDateForDay(WeekMenu.WeekNumber, WeekMenu.Year, d.DayOfWeek),
-                DailySpecials = _menuService.GetAllDailySpecials()
-                    .Where(ds => d.SelectedDailySpecialIds.Contains(ds.Id))
-                    .ToList()
+                MenuDaySpecials = _menuService.GetAllDailySpecials()
+                .Where(s => d.SelectedDailySpecialIds.Contains(s.Id))
+                .Select(s => new MenuDaySpecial { DailySpecialId = s.Id })
+                .ToList()
             }).ToList();
 
             _weekMenuService.Create(WeekMenu, menuDays);

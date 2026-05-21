@@ -27,5 +27,10 @@ namespace ZealandKantine.Repositories
             }
             return 0;
         }
+
+        public List<User> GetAll()
+        {
+            return _dbContext.Users.ToList();
+        }
     }
 }
