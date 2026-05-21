@@ -24,7 +24,7 @@ namespace ZealandKantine.Services
 
         public DailySpecial? GetTodaysDailySpecial()
         {
-            return _menuItemRepository.GetTodaysDailySpecial();
+            return _menuItemRepository.GetTodaysSpecial();
         }
 
         public IEnumerable<DailySpecial> GetAllDailySpecials()

@@ -9,12 +9,12 @@
 {
     @foreach (var day in Model.WeekMenu.First().MenuDays.OrderBy(d => d.DayOfWeek))
     {
-        @foreach (var special in day.DailySpecials)
+        @foreach (var menuDaySpecial in day.MenuDaySpecials)
         {
             <div class="daily-special">
                 <h2>@GetDayName(day.DayOfWeek)</h2>
-                <p>@special.Description</p>
-                <p class="daily-special-price">@special.Price kr.</p>
+                <p>@menuDaySpecial.DailySpecial.Description</p>
+                <p class="daily-special-price">@menuDaySpecial.DailySpecial.Price kr.</p>
             </div>
         }
     }

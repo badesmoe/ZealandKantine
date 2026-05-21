@@ -8,18 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ZealandKantine.Models;
 
-
 [Table("DailySpecial")]
 public partial class DailySpecial
 {
     [Key]
     public int Id { get; set; }
-
-    [Column(TypeName = "datetime")]
-    public DateTime Date { get; set; }
-
-    [Column("isActive")]
-    public bool IsActive { get; set; }
 
     [Required]
     public string Description { get; set; }
@@ -27,11 +20,10 @@ public partial class DailySpecial
     [Column(TypeName = "decimal(10, 2)")]
     public decimal? Price { get; set; }
 
-    public int? MenuDayId { get; set; }
+    public bool IsActive { get; set; }
 
-    [ForeignKey("MenuDayId")]
-    [InverseProperty("DailySpecials")]
-    public virtual MenuDay MenuDay { get; set; }
+    [InverseProperty("DailySpecial")]
+    public virtual ICollection<MenuDaySpecial> MenuDaySpecials { get; set; } = new List<MenuDaySpecial>();
 
     [InverseProperty("DailySpecial")]
     public virtual ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();

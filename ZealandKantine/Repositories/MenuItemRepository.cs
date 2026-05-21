@@ -59,23 +59,15 @@ namespace ZealandKantine.Repositories
                 .OrderBy(m => order.IndexOf(m.Category))
                 .ToList();
         }
-        public DailySpecial? GetTodaysDailySpecial()
+        public DailySpecial? GetTodaysSpecial()
         {
-            //var today = DateTime.Today;
-            //var tomorrow = today.AddDays(1);
-
-            //return _dbContext.DailySpecials
-            //    .FirstOrDefault(ds =>
-            //        ds.Date >= today &&
-            //        ds.Date < tomorrow &&
-            //        ds.IsActive);
-
             var today = DateOnly.FromDateTime(DateTime.Today);
             return _dbContext.MenuDays
                 .Where(md => md.Date == today)
-                .Include(md => md.DailySpecials)
-                .SelectMany(md => md.DailySpecials)
-                .FirstOrDefault();
+                .Include(md => md.MenuDaySpecials)
+                    .ThenInclude(mds => mds.DailySpecial)
+                .SelectMany(md => md.MenuDaySpecials.Select(mds => mds.DailySpecial))
+                .FirstOrDefault(s => s != null && s.IsActive);
         }
 
         public IEnumerable<DailySpecial> GetAllDailySpecials()
