@@ -1,0 +1,31 @@
+﻿@page
+@model ZealandKantine.Pages.MonthlyStatements.MyStatementsModel
+
+<h2>Mine månedlige opgørelser</h2>
+
+@if (!Model.Statements.Any())
+{
+    <p>Ingen opgørelser endnu.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Periode</th>
+                <th>Beløb</th>
+                <th>Genereret</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model.Statements)
+            {
+                <tr>
+                    <td>@s.Month / @s.Year</td>
+                    <td>@s.TotalAmount.ToString("C")</td>
+                    <td>@s.GeneratedAt.ToString("dd-MM-yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -88,6 +88,9 @@ namespace ZealandKantine.Services
 
             foreach (var (userId, total) in totals)
             {
+                if (_monthlyStatementRepository.ExistsForUserAndMonth(userId, month, year))
+                    continue;
+
                 var statement = new MonthlyStatement
                 {
                     Userid = userId,
