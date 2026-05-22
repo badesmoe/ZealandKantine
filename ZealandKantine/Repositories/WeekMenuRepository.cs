@@ -86,6 +86,7 @@ namespace ZealandKantine.Repositories
                 .ToList();
         }
 
+
         public WeekMenu? GetWeekMenu(int? weekNumber, int year)
         {
             return _dbContext.WeekMenus

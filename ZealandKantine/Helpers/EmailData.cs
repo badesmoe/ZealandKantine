@@ -2,7 +2,7 @@
 
 namespace ZealandKantine.Helpers
 {
-    public static class EmaiData
+    public static class EmailData
     {
         static string JsonString = File.ReadAllText("utility.json");
 

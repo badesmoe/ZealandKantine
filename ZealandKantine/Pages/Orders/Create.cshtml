@@ -1,90 +1,607 @@
 ﻿@page "/opret-ordre"
 @model ZealandKantine.Pages.Orders.CreateModel
 
-<h2>Opret bestilling</h2>
+<div class="order-page">
+    <h1>Opret bestilling</h1>
 
-<form method="post">
-    @Html.AntiForgeryToken()
+    <div class="order-container">
+        <!-- Venstre side: Menu -->
+        <div class="menu-section">
+            <div class="menu-header">
+                <h2>Tilgængelige retter</h2>
+            </div>
 
-    <!-- Dagens ret -->
-    <h4>Dagens ret</h4>
-    @if (Model.TodaysDailySpecial != null)
-    {
-        <div class="order-line">
-            <span>@Model.TodaysDailySpecial.Description</span>
-            <span>35 kr</span>
-            <input type="number" name="OrderLines[0].Quantity" min="0" max="1" value="0" class="quantity-input" data-price="35" data-isdiscount="true" />
-            <input type="hidden" name="OrderLines[0].DailySpecialId" value="@Model.TodaysDailySpecial.Id" />
-        </div>
-    }
+            <!-- Dagens ret - prominent placering -->
+            @if (Model.TodaysDailySpecial != null)
+            {
+                <div class="section-group">
+                    <div class="daily-special-banner">
+                        <div class="daily-special-content">
+                            <span class="badge-today">Dagens ret</span>
+                            <h3>@Model.TodaysDailySpecial.Description</h3>
+                            <p class="daily-special-price">@Model.TodaysDailySpecial.Price kr.</p>
+                        </div>
+                        <button type="button" class="btn btn-add add-daily-special" data-id="@Model.TodaysDailySpecial.Id" data-price="@Model.TodaysDailySpecial.Price" data-name="@Model.TodaysDailySpecial.Description" data-isdiscount="true">
+                            Tilføj
+                        </button>
+                    </div>
+                </div>
+            }
 
-    <!-- Menupunkter -->
-    <h4>Menu</h4>
-    @for (int i = 1; i <= 5; i++)
-    {
-        <div class="order-line">
-            <select name="OrderLines[@i].MenuItemId" class="menu-select" data-index="@i">
-                <option value="">-- Vælg --</option>
-                @foreach (var category in Model.MenuItems.GroupBy(m => m.Category))
-                {
-                    <optgroup label="@category.Key">
+            <!-- Menu kategorier -->
+            @foreach (var category in Model.MenuItems.GroupBy(m => m.Category))
+            {
+                <div class="section-group">
+                    <h3 class="category-title">@category.Key</h3>
+                    <div class="menu-grid">
                         @foreach (var item in category)
                         {
-                            <option value="@item.Id" data-price="@item.Price" data-isdiscount="@(item.Category != ZealandKantine.Models.MenuCategory.Drikkevarer ? "true" : "false")">
-                                @item.Name - @item.Price kr
-                            </option>
+                            <div class="menu-card">
+                                <div class="menu-card-body">
+                                    <h4 class="menu-card-title">@item.Name</h4>
+                                    <p class="menu-card-price">@item.Price kr.</p>
+                                </div>
+                                <button type="button" class="btn btn-add btn-icon add-menu-item" data-id="@item.Id" data-price="@item.Price" data-name="@item.Name" data-isdiscount="@(item.Category != ZealandKantine.Models.MenuCategory.Drikkevarer ? "true" : "false")" title="Tilføj til ordre">
+                                    +
+                                </button>
+                            </div>
                         }
-                    </optgroup>
-                }
-            </select>
-            <input type="number" name="OrderLines[@i].Quantity" min="0" value="0" class="quantity-input" />
+                    </div>
+                </div>
+            }
         </div>
+
+        <!-- Højre side: Ordrekurv -->
+        <aside class="cart-section">
+            <form method="post" id="orderForm">
+                @Html.AntiForgeryToken()
+
+                <div class="cart-header">
+                    <h2>Din bestilling</h2>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+
+                <div id="orderItems" class="cart-items">
+                    <div class="empty-cart">
+                        <p>Din kurv er tom</p>
+                    </div>
+                </div>
+
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Bruttopris:</span>
+                        <span id="grossTotal">0.00</span> kr
+                    </div>
+                    <div class="summary-row">
+                        <span>Rabat (10%):</span>
+                        <span id="discountTotal">0.00</span> kr
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Nettopris:</span>
+                        <strong id="netTotal">0.00</strong> kr
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-checkout btn-lg">Gennemfør bestilling</button>
+            </form>
+        </aside>
+    </div>
+</div>
+
+<style>
+    * {
+        box-sizing: border-box;
     }
 
-   @*  Totaler *@
-    <hr />
-    <p>Bruttopris: <span id="grossTotal">0</span> kr</p>
-    <p>Rabat: <span id="discountTotal">0</span> kr</p>
-    <p>Nettopris: <span id="netTotal">0</span> kr</p>
+    .order-page {
+        padding: 2rem;
+        background-color: #f8f9fa;
+        min-height: 100vh;
+    }
 
-    <button type="submit">Bestil</button>
-</form>
+    .order-page h1 {
+        margin-bottom: 2rem;
+        color: #1a1a1a;
+    }
 
-<!-- JavaScript lavet af Claude.AI til live beregning -->
+    .order-container {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    /* MENU SECTION */
+    .menu-section {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .menu-header {
+        margin-bottom: 1rem;
+    }
+
+    .menu-header h2 {
+        color: #2c6e49;
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .section-group {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .category-title {
+        color: #2c6e49;
+        font-size: 1.1rem;
+        margin: 0 0 1rem 0;
+        font-weight: 600;
+    }
+
+    /* Dagens ret */
+    .daily-special-banner {
+        background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+        color: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .daily-special-content {
+        flex: 1;
+    }
+
+    .badge-today {
+        display: inline-block;
+        background-color: rgba(255, 255, 255, 0.25);
+        color: white;
+        padding: 0.35rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .daily-special-content h3 {
+        margin: 0.5rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .daily-special-price {
+        margin: 0.5rem 0 0 0;
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    /* Menu grid */
+    .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .menu-card {
+        background-color: #fafafa;
+        border: 1px solid #e8e8e8;
+        border-radius: 8px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    .menu-card:hover {
+        border-color: #2c6e49;
+        box-shadow: 0 4px 12px rgba(44, 110, 73, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .menu-card-body {
+        flex: 1;
+        margin-bottom: 1rem;
+    }
+
+    .menu-card-title {
+        margin: 0 0 0.5rem 0;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+
+    .menu-card-price {
+        margin: 0;
+        color: #2c6e49;
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    /* BUTTONS */
+    .btn {
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.95rem;
+    }
+
+    .btn-add {
+        background-color: #2c6e49;
+        color: white;
+        padding: 0.5rem 1rem;
+        min-width: 100px;
+    }
+
+    .btn-add:hover {
+        background-color: #1e4620;
+        transform: scale(1.05);
+    }
+
+    .btn-icon {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        border-radius: 8px;
+    }
+
+    .btn-checkout {
+        background-color: #2c6e49;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .btn-checkout:hover:not(:disabled) {
+        background-color: #1e4620;
+    }
+
+    .btn-checkout:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    /* CART SECTION */
+    .cart-section {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        height: fit-content;
+        position: sticky;
+        top: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .cart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 1rem;
+    }
+
+    .cart-header h2 {
+        margin: 0;
+        font-size: 1.3rem;
+        color: #1a1a1a;
+    }
+
+    .cart-count {
+        background-color: #2c6e49;
+        color: white;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.85rem;
+    }
+
+    .cart-items {
+        min-height: 200px;
+        max-height: 400px;
+        overflow-y: auto;
+        margin-bottom: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .empty-cart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+        color: #999;
+        font-style: italic;
+    }
+
+    .cart-item {
+        background-color: #f9f9f9;
+        border: 1px solid #e8e8e8;
+        border-radius: 6px;
+        padding: 0.75rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        animation: slideIn 0.2s ease;
+    }
+
+    .keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .cart-item-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .cart-item-name {
+        margin: 0;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #1a1a1a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .cart-item-meta {
+        margin: 0.25rem 0 0 0;
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .cart-item-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .cart-item-qty {
+        width: 45px;
+        padding: 0.35rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        text-align: center;
+        font-size: 0.85rem;
+    }
+
+    .cart-item-delete {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        transition: background-color 0.2s;
+    }
+
+    .cart-item-delete:hover {
+        background-color: #c82333;
+    }
+
+    /* SUMMARY */
+    .cart-summary {
+        border-top: 2px solid #f0f0f0;
+        padding-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    .summary-row span:first-child {
+        font-weight: 500;
+    }
+
+    .summary-total {
+        border-top: 1px solid #f0f0f0;
+        padding-top: 0.75rem;
+        margin-top: 0.75rem;
+        color: #1a1a1a;
+        font-size: 1rem;
+    }
+
+    /* RESPONSIVE */
+    .media (max-width: 1024px) {
+        .order-container {
+            grid-template-columns: 1fr;
+        }
+
+        .cart-section {
+            position: static;
+        }
+
+        .menu-grid {
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        }
+    }
+
+    .media (max-width: 768px) {
+        .order-page {
+            padding: 1rem;
+        }
+
+        .menu-grid {
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        }
+
+        .daily-special-banner {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .cart-section {
+            margin-top: 2rem;
+        }
+    }
+</style>
+
 <script>
-    function calculate() {
+    let orderItems = [];
+    let itemCounter = 0;
+
+    document.querySelectorAll('.add-daily-special').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            addItemToOrder({
+                type: 'daily',
+                id: this.dataset.id,
+                name: this.dataset.name,
+                price: parseFloat(this.dataset.price),
+                isDiscount: this.dataset.isdiscount === 'true'
+            });
+        });
+    });
+
+    document.querySelectorAll('.add-menu-item').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            addItemToOrder({
+                type: 'menu',
+                id: this.dataset.id,
+                name: this.dataset.name,
+                price: parseFloat(this.dataset.price),
+                isDiscount: this.dataset.isdiscount === 'true'
+            });
+        });
+    });
+
+    function addItemToOrder(item) {
+        const existingItem = orderItems.find(oi => oi.id === item.id && oi.type === item.type);
+        
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            item.quantity = 1;
+            item.itemId = itemCounter++;
+            orderItems.push(item);
+        }
+
+        renderOrderItems();
+        updateTotals();
+    }
+
+    function removeItemFromOrder(itemId) {
+        orderItems = orderItems.filter(oi => oi.itemId !== itemId);
+        renderOrderItems();
+        updateTotals();
+    }
+
+    function updateQuantity(itemId, newQty) {
+        const item = orderItems.find(oi => oi.itemId === itemId);
+        if (item) {
+            item.quantity = Math.max(0, parseInt(newQty) || 0);
+            if (item.quantity === 0) {
+                removeItemFromOrder(itemId);
+            } else {
+                renderOrderItems();
+                updateTotals();
+            }
+        }
+    }
+
+    function renderOrderItems() {
+        const container = document.getElementById('orderItems');
+        
+        if (orderItems.length === 0) {
+            container.innerHTML = '<div class="empty-cart"><p>Din kurv er tom</p></div>';
+            document.getElementById('orderForm').style.display = 'block';
+            return;
+        }
+
+        container.innerHTML = '';
+        let lineIndex = 0;
+
+        orderItems.forEach((item) => {
+            if (item.quantity > 0) {
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+
+                const inputName = item.type === 'daily' 
+                    ? `OrderLines[${lineIndex}].DailySpecialId` 
+                    : `OrderLines[${lineIndex}].MenuItemId`;
+
+                div.innerHTML = `
+                    <div class="cart-item-info">
+                        <p class="cart-item-name">${item.name}</p>
+                        <p class="cart-item-meta">${item.price.toFixed(2)} kr</p>
+                    </div>
+                    <div class="cart-item-controls">
+                        <input type="number" class="cart-item-qty" min="1" value="${item.quantity}" onchange="updateQuantity(${item.itemId}, this.value)" />
+                        <button type="button" class="cart-item-delete" onclick="removeItemFromOrder(${item.itemId})" title="Slet">✕</button>
+                    </div>
+                    <input type="hidden" name="${inputName}" value="${item.id}" />
+                    <input type="hidden" name="OrderLines[${lineIndex}].Quantity" value="${item.quantity}" />
+                `;
+                
+                container.appendChild(div);
+                lineIndex++;
+            }
+        });
+    }
+
+    function updateTotals() {
         let gross = 0;
         let discount = 0;
 
-        document.querySelectorAll('.order-line').forEach(line => {
-            const select = line.querySelector('.menu-select');
-            const qtyInput = line.querySelector('.quantity-input');
-            const qty = parseInt(qtyInput.value) || 0;
-
-            let price = 0;
-            let isDiscount = false;
-
-            if (select) {
-                const selected = select.options[select.selectedIndex];
-                price = parseFloat(selected?.dataset.price) || 0;
-                isDiscount = selected?.dataset.isdiscount === 'true';
-            } else {
-                price = parseFloat(qtyInput.dataset.price) || 0;
-                isDiscount = qtyInput.dataset.isdiscount === 'true';
-            }
-
-            const lineTotal = price * qty;
+        orderItems.forEach(item => {
+            const lineTotal = item.price * item.quantity;
             gross += lineTotal;
-            if (isDiscount) discount += lineTotal * 0.10;
+            if (item.isDiscount) {
+                discount += lineTotal * 0.10;
+            }
         });
 
         document.getElementById('grossTotal').textContent = gross.toFixed(2);
         document.getElementById('discountTotal').textContent = discount.toFixed(2);
         document.getElementById('netTotal').textContent = (gross - discount).toFixed(2);
+        document.getElementById('cartCount').textContent = orderItems.reduce((sum, item) => sum + item.quantity, 0);
+
+        const checkoutBtn = document.querySelector('.btn-checkout');
+        checkoutBtn.disabled = orderItems.length === 0;
     }
 
-    document.querySelectorAll('.quantity-input, .menu-select').forEach(el => {
-        el.addEventListener('change', calculate);
-        el.addEventListener('input', calculate);
-    });
+    renderOrderItems();
+    updateTotals();
 </script>
