@@ -11,15 +11,17 @@ namespace ZealandKantine.Pages.MonthlyStatements
     public class GenerateMonthlyStatement : PageModel
     {
         private readonly OrderService _orderService;
+        private readonly MonthlyStatementService _monthlyStatementService;
 
-        public GenerateMonthlyStatement(OrderService orderService)
+        public GenerateMonthlyStatement(OrderService orderService, MonthlyStatementService monthlyStatementService)
         {
             _orderService = orderService;
+            _monthlyStatementService = monthlyStatementService;
         }
         public IActionResult OnPost()
         {
             DateTime now = DateTime.Now;
-            _orderService.GenerateMonthlyStatements(now.Month, now.Year);
+            _monthlyStatementService.GenerateMonthlyStatements(now.Month, now.Year);
             return new OkResult();
         }
     }

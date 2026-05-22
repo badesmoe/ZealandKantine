@@ -6,10 +6,14 @@ namespace ZealandKantine.Services
     public class MonthlyStatementService
     {
         private readonly MonthlyStatementRepository _repository;
+        private readonly OrderRepository _orderRepository;
+        private readonly MonthlyStatementRepository _monthlyStatementRepository;
 
-        public MonthlyStatementService(MonthlyStatementRepository repository)
+        public MonthlyStatementService(MonthlyStatementRepository repository, OrderRepository orderRepository, MonthlyStatementRepository monthlyStatementRepository)
         {
             _repository = repository;
+            _orderRepository = orderRepository;
+            _monthlyStatementRepository = monthlyStatementRepository;
         }
 
         public List<MonthlyStatement> GetStatementsForUser(int userId, string? periodFilter)
@@ -39,6 +43,28 @@ namespace ZealandKantine.Services
                 .ToList();
 
             return statements;
+        }
+
+        public void GenerateMonthlyStatements(int month, int year)
+        {
+            var totals = _orderRepository.GetMonthlyTotalPerUser(month, year);
+
+            foreach (var (userId, total) in totals)
+            {
+                if (_monthlyStatementRepository.ExistsForUserAndMonth(userId, month, year))
+                    continue;
+
+                var statement = new MonthlyStatement
+                {
+                    Userid = userId,
+                    Month = month,
+                    Year = year,
+                    TotalAmount = total,
+                    GeneratedAt = DateTime.Now
+                };
+
+                _monthlyStatementRepository.Create(statement);
+            }
         }
     }
 }

@@ -81,28 +81,5 @@ namespace ZealandKantine.Services
         {
             return _orderRepository.GetOrdersByName(name);
         }
-
-        public void GenerateMonthlyStatements(int month, int year)
-        {
-            var totals = _orderRepository.GetMonthlyTotalPerUser(month, year);
-
-            foreach (var (userId, total) in totals)
-            {
-                if (_monthlyStatementRepository.ExistsForUserAndMonth(userId, month, year))
-                    continue;
-
-                var statement = new MonthlyStatement
-                {
-                    Userid = userId,
-                    Month = month,
-                    Year = year,
-                    TotalAmount = total,
-                    GeneratedAt = DateTime.Now
-                };
-
-                _monthlyStatementRepository.Create(statement);
-            }
-        }
-
     }
 }
