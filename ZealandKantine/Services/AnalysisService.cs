@@ -21,5 +21,15 @@ namespace ZealandKantine.Services
                 .Select(g => (g.Key, g.Sum(ol => ol.Quantity)))
                 .ToList();
         }
+
+        public List<(DailySpecial DailySpecial, int TotalSold)> GetDailySpecialsSortedBySales()
+        {
+            return _analysesRepository.GetOrderLines()
+                .Where(ol => ol.DailySpecial != null)
+                .GroupBy(ol => ol.DailySpecial)
+                .OrderByDescending(g => g.Sum(ol => ol.Quantity))
+                .Select(g => (g.Key, g.Sum(ol => ol.Quantity)))
+                .ToList();
+        }
     }
 }

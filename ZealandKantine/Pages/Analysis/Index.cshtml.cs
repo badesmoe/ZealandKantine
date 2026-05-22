@@ -10,6 +10,7 @@ namespace ZealandKantine.Pages.Analysis
         private readonly AnalysisService _analysisService;
 
         public List<(MenuItem MenuItem, int TotalSold)> SoldMenuItems { get; set; }
+        public List<(DailySpecial DailySpecial, int TotalSold)> SoldDailySpecials { get; set; }
 
         public IndexModel(AnalysisService analysisService)
         {
@@ -19,6 +20,7 @@ namespace ZealandKantine.Pages.Analysis
         public void OnGet()
         {
             SoldMenuItems = _analysisService.GetMenuItemsSortedBySales();
+            SoldDailySpecials = _analysisService.GetDailySpecialsSortedBySales();
         }
     }
 }
