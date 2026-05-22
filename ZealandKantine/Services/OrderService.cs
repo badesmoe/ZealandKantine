@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using ZealandKantine.Models;
 using ZealandKantine.Repositories;
 
@@ -21,6 +20,10 @@ namespace ZealandKantine.Services
         private const int MenuItemDiscountPercent = 10;
         public void CreateOrder(Order order)
         {
+            order.OrderDateTime = DateTime.Now;
+
+            order.ReadyAt = DateTime.Now.AddMinutes(60);
+
             order.Status = "Modtaget";
 
             foreach (var item in order.OrderLines)
@@ -66,10 +69,7 @@ namespace ZealandKantine.Services
          string? employeeName,
          string? period)
         {
-            return _orderRepository
-                .GetCompletedOrdersFiltered(
-                    employeeName,
-                    period);
+            return _orderRepository.GetCompletedOrdersFiltered(employeeName,period);
         }
 
         public List<Order> ReadAll()

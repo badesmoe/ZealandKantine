@@ -6,7 +6,7 @@ using ZealandKantine.Services;
 
 namespace ZealandKantine.Pages.Orders
 {
-    [Authorize (Roles = "Admin, Employee")]
+    [Authorize(Roles = "Admin, Employee")]
     public class CreateModel : PageModel
     {
         private readonly MenuService _menuService;
@@ -44,13 +44,7 @@ namespace ZealandKantine.Pages.Orders
             Order order = new Order
             {
                 UserId = _userService.GetUserIdByName(User.Identity.Name) ?? 0,
-                OrderDateTime = DateTime.Now,
-                ReadyAt = DateTime.Now.AddMinutes(60),
-                Status = "Modtaget",
-                OrderLines = OrderLines,
-                NetTotal = OrderLines.Sum(ol => ol.Quantity * ol.UnitPrice),
-                GrossTotal = OrderLines.Sum(ol => ol.Quantity * ol.UnitPrice),
-                DiscountTotal = 0
+                OrderLines = OrderLines
             };
 
             _orderService.CreateOrder(order);
@@ -58,4 +52,5 @@ namespace ZealandKantine.Pages.Orders
             return RedirectToPage("/Orders/Confirmation");
         }
     }
+
 }
