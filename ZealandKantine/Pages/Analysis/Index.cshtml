@@ -1,0 +1,25 @@
+﻿@page
+@model ZealandKantine.Pages.Analysis.IndexModel
+@{
+    ViewData["Title"] = "Salgstal";
+}
+<h1>Salgtal</h1>
+
+<h2>Menu Punkter</h2>
+@foreach (var menuItem in Model.SoldMenuItems)
+{
+    <div class="menu-category">
+        <p>Navn: @menuItem.MenuItem.Name</p>
+        <p>Antal: @menuItem.TotalSold</p>
+    </div>
+
+}
+
+<h2>Dages Ret</h2>
+@foreach (var dailySpecial in Model.SoldDailySpecials)
+{
+    <div class="menu-category">
+        <p>Navn: @dailySpecial.DailySpecial.Description</p>
+        <p>Antal: @dailySpecial.TotalSold</p>
+    </div>
+}
