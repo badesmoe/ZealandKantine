@@ -23,6 +23,7 @@ builder.Services.AddScoped<MonthlyStatementRepository>();
 builder.Services.AddScoped<AnalysisRepository>();
 builder.Services.AddScoped<AnalysisService>();
 builder.Services.AddDbContext<CafeZea>(o => o.UseSqlServer(ConnectionString.GetConnectionString()));
+builder.Services.AddScoped<MonthlyStatementService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
