@@ -1,31 +1,185 @@
 ﻿@page
 @model ZealandKantine.Pages.MonthlyStatements.MyStatementsModel
 
-<h2>Mine månedlige opgørelser</h2>
+<h1 class="mb-4">Mine månedlige opgørelser</h1>
+
+<form method="get" class="mb-4 d-flex gap-2">
+
+    <select name="PeriodFilter"
+            class="form-select">
+
+        <option value="">Alle perioder</option>
+
+        <option value="thismonth">
+            Denne måned
+        </option>
+
+        <option value="lastmonth">
+            Sidste måned
+        </option>
+
+    </select>
+
+    <button type="submit"
+            class="btn btn-primary">
+
+        Filtrer
+
+    </button>
+
+</form>
+
+<div class="mb-4 d-flex gap-2">
+
+    <a class="btn @(Model.ViewMode == "cards" || string.IsNullOrEmpty(Model.ViewMode)
+                      ? "btn-primary"
+                      : "btn-outline-primary")"
+       href="?ViewMode=cards"
+       title="Kortvisning">
+
+        <i class="bi bi-grid-3x3-gap-fill"></i>
+
+    </a>
+
+    <a class="btn @(Model.ViewMode == "list"
+                      ? "btn-primary"
+                      : "btn-outline-primary")"
+       href="?ViewMode=list"
+       title="Listevisning">
+
+        <i class="bi bi-list-ul"></i>
+
+    </a>
+
+</div>
 
 @if (!Model.Statements.Any())
 {
-    <p>Ingen opgørelser endnu.</p>
+    <div class="alert alert-warning">
+
+        Ingen opgørelser fundet.
+
+    </div>
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Periode</th>
-                <th>Beløb</th>
-                <th>Genereret</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var s in Model.Statements)
-            {
+    decimal total =
+        Model.Statements.Sum(s => s.TotalAmount);
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h4>Samlet forbrug</h4>
+
+            <h2 class="text-primary">
+
+                @total.ToString("0.00") kr
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    @if (Model.ViewMode == "list")
+    {
+        <table class="table table-hover">
+
+            <thead>
+
                 <tr>
-                    <td>@s.Month / @s.Year</td>
-                    <td>@s.TotalAmount.ToString("C")</td>
-                    <td>@s.GeneratedAt.ToString("dd-MM-yyyy")</td>
+
+                    <th>Periode</th>
+
+                    <th>Beløb</th>
+
+                    <th>Genereret</th>
+
+                    <th>Status</th>
+
                 </tr>
-            }
-        </tbody>
-    </table>
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var s in Model.Statements)
+                {
+                    <tr>
+
+                        <td>
+                            @s.Month / @s.Year
+                        </td>
+
+                        <td>
+                            @s.TotalAmount.ToString("0.00") kr
+                        </td>
+
+                        <td>
+                            @s.GeneratedAt.ToString("dd-MM-yyyy")
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                Genereret
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        @foreach (var s in Model.Statements)
+        {
+            <div class="card shadow-sm mb-3">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <h4>
+
+                                Måned:
+                                @s.Month / @s.Year
+
+                            </h4>
+
+                            <p class="text-muted">
+
+                                Genereret:
+                                @s.GeneratedAt.ToString("dd-MM-yyyy")
+
+                            </p>
+
+                        </div>
+
+                        <div>
+
+                            <span class="badge bg-success p-3">
+
+                                @s.TotalAmount.ToString("0.00") kr
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+    }
 }
