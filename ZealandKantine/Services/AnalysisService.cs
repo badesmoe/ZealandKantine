@@ -31,5 +31,14 @@ namespace ZealandKantine.Services
                 .Select(g => (g.Key, g.Sum(ol => ol.Quantity)))
                 .ToList();
         }
+
+        //public List<(DateTime Date, decimal TotalRevenue)> GetRevenueByDate()
+        //{
+        //    return _analysesRepository.GetOrderLines()
+        //        .GroupBy(ol => ol.Order.OrderDateTime.Date)
+        //        .OrderByDescending(g => g.Key)
+        //        .Select(g => (g.Key, g.Sum(ol => (ol.MenuItem?.Price ?? 0) * ol.Quantity + (ol.DailySpecial?.Price ?? 0) * ol.Quantity)))
+        //        .ToList();
+        //}
     }
 }
