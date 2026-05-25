@@ -5,7 +5,7 @@
 }
 <h1>Salgtal</h1>
 
-<h2>Menu Punkter</h2>
+<h2>Menupunkter</h2>
 @foreach (var menuItem in Model.SoldMenuItems)
 {
     <div class="menu-category">
@@ -15,7 +15,7 @@
 
 }
 
-<h2>Dages Ret</h2>
+<h2>Dagens Ret</h2>
 @foreach (var dailySpecial in Model.SoldDailySpecials)
 {
     <div class="menu-category">
@@ -23,3 +23,27 @@
         <p>Antal: @dailySpecial.TotalSold</p>
     </div>
 }
+
+@* <h2>Omsætning pr. dag</h2>
+
+<form method="get" class="filter-form">
+    <div class="form-group">
+        <label for="startDate">Fra dato:</label>
+        <input type="date" id="startDate" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <div class="form-group">
+        <label for="endDate">Til dato:</label>
+        <input type="date" id="endDate" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Filtrer</button>
+</form>
+
+@foreach (var revenue in Model.RevenueByDate)
+{
+    <div class="menu-category">
+        <p>Dato: @revenue.Date.ToString("dd/MM/yyyy")</p>
+        <p>Omsætning: @revenue.TotalRevenue.ToString("C")</p>
+    </div>
+} *@

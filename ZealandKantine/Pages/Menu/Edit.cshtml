@@ -1,7 +1,10 @@
 ﻿@page
 @model ZealandKantine.Pages.Menu.DeleteModel
+}
+
 @{
     ViewData["Title"] = "Opdater Menukort";
+
 }
 
 @if (!Model.Items.Any())
@@ -42,6 +45,7 @@ else
                                     <input type="hidden" name="MenuItem.Id" value="@item.Id" />
                                     <input type="hidden" name="MenuItem.Name" value="@item.Name" />
                                     <input type="hidden" name="MenuItem.Category" value="@item.Category" />
+
                                     
                                     <div class="menu-item__controls">
                                         <div class="menu-item__price-field">
@@ -52,6 +56,7 @@ else
                                                    value="@item.Price.ToString("0.00")" 
                                                    step="0.01"
                                                    min="0"
+                                                   max="1000"
                                                    class="form-control form-control-sm" />
                                         </div>
                                         

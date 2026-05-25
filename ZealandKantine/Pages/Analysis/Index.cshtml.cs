@@ -11,6 +11,7 @@ namespace ZealandKantine.Pages.Analysis
 
         public List<(MenuItem MenuItem, int TotalSold)> SoldMenuItems { get; set; }
         public List<(DailySpecial DailySpecial, int TotalSold)> SoldDailySpecials { get; set; }
+        public List<(DateTime Date, decimal TotalRevenue)> RevenueByDate { get; set; }
 
         public IndexModel(AnalysisService analysisService)
         {
@@ -21,6 +22,8 @@ namespace ZealandKantine.Pages.Analysis
         {
             SoldMenuItems = _analysisService.GetMenuItemsSortedBySales();
             SoldDailySpecials = _analysisService.GetDailySpecialsSortedBySales();
+            //RevenueByDate = _analysisService.GetRevenueByDate();
+
         }
     }
 }

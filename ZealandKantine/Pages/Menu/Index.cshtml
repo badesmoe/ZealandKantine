@@ -1,5 +1,19 @@
 ﻿@page
 @model ZealandKantine.Pages.Menu.IndexModel
+@section Styles {
+    <style>
+        .menu-item {
+            transition: none;
+        }
+
+            .menu-item:hover {
+                border-color: var(--cz-border);
+                box-shadow: none;
+                transform: none;
+                outline: none;
+            }
+    </style>
+}
 @{
     ViewData["Title"] = "Menu";
 }

@@ -32,6 +32,7 @@ namespace ZealandKantine.Services
 
             if (weekMenu == null)
                 return;
+            // Old automated mail
 
             //string body = $"Uge {weekMenu.WeekNumber} menu:\n\n";
             //    string body = $"<!DOCTYPE html>\r\n<html lang=\"da\">\r\n<head>\r\n  <meta charset=\"UTF-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n  <title>Uge Menukort – Café Zea</title>\r\n</head>\r\n<body style=\"margin:0; padding:0; background-color:#f4f4f4; font-family:Arial, sans-serif;\">\r\n\r\n  <table role=\"presentation\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" style=\"background-color:#f4f4f4;\">\r\n    <tr>\r\n      <td align=\"center\" style=\"padding:30px 10px;\">\r\n\r\n        <!-- Container -->\r\n        <table role=\"presentation\" width=\"600\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"\r\n          style=\"max-width:600px; width:100%; background-color:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.08);\">\r\n\r\n          <!-- Header -->\r\n          <tr>\r\n            <td align=\"center\" style=\"background-color:#2c6e49; padding:30px 40px;\">\r\n              <h1 style=\"margin:0; color:#ffffff; font-size:26px; font-weight:bold; letter-spacing:1px;\">\r\n                Uge Menukort\r\n              </h1>\r\n              <p style=\"margin:8px 0 0; color:#a8d5b5; font-size:14px;\">\r\n                Café Zea – Uge 21, 2026\r\n              </p>\r\n            </td>\r\n          </tr>\r\n          <!-- Footer -->\r\n          <tr>\r\n            <td align=\"center\" style=\"background-color:#f9f9f9; padding:20px 40px; border-top:1px solid #e8e8e8;\">\r\n              <p style=\"margin:0; font-size:12px; color:#aaaaaa;\">\r\n                © 2026 – Café Zea / ZealandKantine\r\n              </p>\r\n              <p style=\"margin:6px 0 0; font-size:12px;\">\r\n                <a href=\"https://cafezea.dk/WeekMenus\" style=\"color:#2c6e49; text-decoration:none;\">\r\n                  Se menuen online\r\n                </a>\r\n              </p>\r\n            </td>\r\n          </tr>\r\n\r\n        </table>\r\n        <!-- /Container -->\r\n\r\n      </td>\r\n    </tr>\r\n  </table>\r\n\r\n</body>\r\n</html>";
@@ -63,6 +64,8 @@ namespace ZealandKantine.Services
             //    }
             //}
 
+
+            //New automated mail - With HTML   
             string body = $@"
 <!DOCTYPE html>
 <html lang=""da"">
