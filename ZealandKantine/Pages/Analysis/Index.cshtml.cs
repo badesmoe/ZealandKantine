@@ -9,6 +9,11 @@ namespace ZealandKantine.Pages.Analysis
     {
         private readonly AnalysisService _analysisService;
 
+        [BindProperty(SupportsGet = true)]
+        public DateTime StartDate { get; set; } = DateTime.Today.AddDays(-1);
+        [BindProperty(SupportsGet = true)]
+        public DateTime EndDate { get; set; } = DateTime.Today;
+
         public List<(MenuItem MenuItem, int TotalSold)> SoldMenuItems { get; set; }
         public List<(DailySpecial DailySpecial, int TotalSold)> SoldDailySpecials { get; set; }
         public List<(DateTime Date, decimal TotalRevenue)> RevenueByDate { get; set; }
@@ -22,7 +27,7 @@ namespace ZealandKantine.Pages.Analysis
         {
             SoldMenuItems = _analysisService.GetMenuItemsSortedBySales();
             SoldDailySpecials = _analysisService.GetDailySpecialsSortedBySales();
-            //RevenueByDate = _analysisService.GetRevenueByDate();
+            RevenueByDate = _analysisService.GetRevenueByDate(StartDate, EndDate);
 
         }
     }
