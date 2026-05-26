@@ -17,9 +17,8 @@ namespace ZealandKantine.Repositories
             return _dbContext.OrderLines
                 .Include(ol => ol.MenuItem)
                 .Include(ol => ol.DailySpecial)
+                .Include(ol => ol.Order)
                 .ToList();
         }
-
-
     }
 }

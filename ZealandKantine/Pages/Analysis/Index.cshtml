@@ -12,7 +12,6 @@
         <p>Navn: @menuItem.MenuItem.Name</p>
         <p>Antal: @menuItem.TotalSold</p>
     </div>
-
 }
 
 <h2>Dagens Ret</h2>
@@ -24,17 +23,17 @@
     </div>
 }
 
-@* <h2>Omsætning pr. dag</h2>
+<h2>Omsætning pr. dag</h2>
 
 <form method="get" class="filter-form">
     <div class="form-group">
         <label for="startDate">Fra dato:</label>
-        <input type="date" id="startDate" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+        <input type="date" id="startDate" name="startDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" />
     </div>
 
     <div class="form-group">
         <label for="endDate">Til dato:</label>
-        <input type="date" id="endDate" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+        <input type="date" id="endDate" name="endDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" />
     </div>
 
     <button type="submit" class="btn btn-primary">Filtrer</button>
@@ -46,4 +45,6 @@
         <p>Dato: @revenue.Date.ToString("dd/MM/yyyy")</p>
         <p>Omsætning: @revenue.TotalRevenue.ToString("C")</p>
     </div>
-} *@
+}
+
+<p>Samlet omsætning: @Model.TotalRevenue.ToString("C")</p>
