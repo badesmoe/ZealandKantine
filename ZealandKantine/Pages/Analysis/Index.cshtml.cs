@@ -18,6 +18,8 @@ namespace ZealandKantine.Pages.Analysis
         public List<(DailySpecial DailySpecial, int TotalSold)> SoldDailySpecials { get; set; }
         public List<(DateTime Date, decimal TotalRevenue)> RevenueByDate { get; set; }
 
+        public decimal TotalRevenue => RevenueByDate.Sum(r => r.TotalRevenue);
+
         public IndexModel(AnalysisService analysisService)
         {
             _analysisService = analysisService;

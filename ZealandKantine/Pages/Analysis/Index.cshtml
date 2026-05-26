@@ -12,7 +12,6 @@
         <p>Navn: @menuItem.MenuItem.Name</p>
         <p>Antal: @menuItem.TotalSold</p>
     </div>
-
 }
 
 <h2>Dagens Ret</h2>
@@ -47,3 +46,5 @@
         <p>Omsætning: @revenue.TotalRevenue.ToString("C")</p>
     </div>
 }
+
+<p>Samlet omsætning: @Model.TotalRevenue.ToString("C")</p>
