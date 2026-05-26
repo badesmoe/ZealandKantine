@@ -25,6 +25,11 @@
 
 <h2>Omsætning pr. dag</h2>
 
+<a class="btn btn-secondary" asp-page="Index" asp-route-quarter="1">1. kvartal</a>
+<a class="btn btn-secondary" asp-page="Index" asp-route-quarter="2">2. kvartal</a>
+<a class="btn btn-secondary" asp-page="Index" asp-route-quarter="3">3. kvartal</a>
+<a class="btn btn-secondary" asp-page="Index" asp-route-quarter="4">4. kvartal</a>
+
 <form method="get" class="filter-form">
     <div class="form-group">
         <label for="startDate">Fra dato:</label>
@@ -64,3 +69,37 @@
 }
 
 <p>Samlet omsætning: @Model.TotalRevenue.ToString("C")</p>
+
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@section Scripts {
+    <script>
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                                    Model.RevenueByDate.Select(r => r.Date.ToString("dd/MM/yyyy"))
+                            )),
+            datasets: [{
+                label: 'Omsætning (kr.)',
+                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                                        Model.RevenueByDate.Select(r => r.TotalRevenue)
+                                )),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+}
