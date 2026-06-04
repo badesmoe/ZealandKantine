@@ -11,12 +11,14 @@ namespace ZealandKantine.Pages.Menu
         private readonly MenuService _menuService;
         public List<MenuItem> Items { get; set; }
         public Models.DailySpecial? TodaysSpecial { get; set; }
+        public string ViewMode { get; set; } = "cards";
         public IndexModel(MenuService menuService)
         {
             _menuService = menuService;
         }
-        public void OnGet()
+        public void OnGet(string? viewMode)
         {
+            ViewMode = viewMode ?? "cards";
             Items = _menuService.GetAllActive();
             TodaysSpecial = _menuService.GetTodaysDailySpecial();
         }
